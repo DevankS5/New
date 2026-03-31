@@ -1,0 +1,12 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "installCommand": "cd react-pixel-clone && npm install",
+  "buildCommand": "cd react-pixel-clone && npm run build",
+  "outputDirectory": "react-pixel-clone/dist",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/devan/Downloads/Orygin/**)",
+      "Bash(mkdir -p teachloop-clone/src/components)",
+      "Bash(npm create:*)",
+      "Bash(npm install:*)",
+      "Bash(\"C:\\\\Users\\\\devan\\\\Downloads\\\\Orygin\\\\teachloop-clone\\\\vite.config.js\":*)",
+      "Bash(\"C:\\\\Users\\\\devan\\\\Downloads\\\\Orygin\\\\teachloop-clone\\\\index.html\":*)",
+      "Bash(\"C:\\\\Users\\\\devan\\\\Downloads\\\\Orygin\\\\teachloop-clone\\\\src\\\\main.jsx\":*)",
+      "Bash(\"C:\\\\Users\\\\devan\\\\Downloads\\\\Orygin\\\\teachloop-clone\\\\src\\\\index.css\":*)"
+    ]
+  }
+}

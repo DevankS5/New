@@ -1,0 +1,179 @@
+@import "./replica/replica.css";
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  background: #111112;
+}
+
+#pixel-root {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* Keep the final "Apply today" CTA visible through the full page scroll. */
+#section-5oa_veNL0R {
+  position: fixed !important;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+}
+
+#section-5oa_veNL0R .row-ko6CZXkA25 {
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+#preview-container {
+  padding-bottom: 140px;
+}
+
+:root {
+  --theme-bg: #0B0B0B;
+  --theme-surface: #121212;
+  --theme-text: #FFFFFF;
+  --theme-text-secondary: #9CA3AF;
+  --theme-accent: #FFC107;
+  --theme-accent-hover: #FFD54F;
+  --theme-border: #1F1F1F;
+  --theme-on-accent: #000000;
+}
+
+html,
+body,
+#root,
+#pixel-root,
+.hl_page-preview--content,
+.bg-fixed {
+  background: var(--theme-bg) !important;
+  background-color: var(--theme-bg) !important;
+  color: var(--theme-text) !important;
+}
+
+[class*="section-"],
+[class*="row-"] {
+  background: var(--theme-bg) !important;
+  background-color: var(--theme-bg) !important;
+  background-image: none !important;
+  border-color: var(--theme-border) !important;
+}
+
+[class*="col-"] > .inner,
+[class*="col-"] {
+  background: var(--theme-surface) !important;
+  background-color: var(--theme-surface) !important;
+  background-image: none !important;
+  border-color: var(--theme-border) !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+li,
+label,
+small,
+strong,
+.text-output,
+.sub-heading-button {
+  color: var(--theme-text) !important;
+  background: none !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+[class*="cparagraph-"],
+[class*="csub-heading-"] {
+  color: var(--theme-text-secondary) !important;
+}
+
+a,
+[class*="heading-"] a,
+[class*="paragraph-"] a {
+  color: var(--theme-accent) !important;
+}
+
+a:hover,
+a:focus {
+  color: var(--theme-accent-hover) !important;
+}
+
+button,
+.button,
+[class*="cbutton-"],
+[class*="button-"] button,
+input[type="submit"],
+input[type="button"] {
+  background: var(--theme-accent) !important;
+  background-image: none !important;
+  color: var(--theme-on-accent) !important;
+  border-color: var(--theme-accent) !important;
+}
+
+button:hover,
+.button:hover,
+[class*="cbutton-"]:hover,
+[class*="button-"] button:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover {
+  background: var(--theme-accent-hover) !important;
+  border-color: var(--theme-accent-hover) !important;
+  box-shadow: 0 0 16px rgba(255, 213, 79, 0.4) !important;
+}
+
+input,
+select,
+textarea,
+.vs__dropdown-toggle,
+.dropdown-menu {
+  background: var(--theme-surface) !important;
+  color: var(--theme-text) !important;
+  border-color: var(--theme-border) !important;
+}
+
+#progress-bar-fdo_o2JksL .progress-outer {
+  background: var(--theme-surface) !important;
+  border-color: var(--theme-border) !important;
+}
+
+#progress-bar-fdo_o2JksL .progress-outer > div,
+#progress-bar-fdo_o2JksL .progress-inner {
+  background: var(--theme-accent) !important;
+  color: var(--theme-on-accent) !important;
+  box-shadow: none !important;
+}
+
+.bg,
+.bgCover,
+[class*="bg-"] {
+  background-image: none !important;
+}
+
+@media screen and (max-width: 768px) {
+  #section-5oa_veNL0R .col-AUD3nkrqFu {
+    width: 100% !important;
+  }
+
+  #section-5oa_veNL0R #col-AUD3nkrqFu > .inner {
+    gap: 10px;
+    padding: 10px 12px;
+  }
+
+  #section-5oa_veNL0R .button-8IFTmg9LF_ {
+    margin-top: 6px;
+    width: 100%;
+  }
+
+  #preview-container {
+    padding-bottom: 170px;
+  }
+}

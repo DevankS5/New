@@ -17,13 +17,74 @@ body {
   overflow-x: hidden;
 }
 
+#section-c6yJgt9wX {
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255, 214, 108, 0.08), rgba(255, 214, 108, 0) 48%),
+    radial-gradient(circle at 50% 100%, rgba(255, 168, 32, 0.1), rgba(255, 168, 32, 0) 60%),
+    transparent !important;
+  border-bottom: 1px solid rgba(255, 185, 63, 0.1) !important;
+}
+
+#section-c6yJgt9wX::before {
+  content: "";
+  position: absolute;
+  inset: -120px -120px auto;
+  height: 480px;
+  background: radial-gradient(circle at 50% 10%, rgba(255, 201, 84, 0.06) 0%, rgba(255, 201, 84, 0) 72%);
+  filter: blur(40px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+#section-c6yJgt9wX > .inner,
+#section-c6yJgt9wX [id^="row-"],
+#section-c6yJgt9wX [id^="row-"] > .inner,
+#section-c6yJgt9wX [id^="col-"],
+#section-c6yJgt9wX [id^="col-"] > .inner {
+  background-color: transparent !important;
+  background-image: none !important;
+  position: relative;
+  z-index: 1;
+}
+
+#section-c6yJgt9wX [id^="row-"] {
+  border-color: rgba(255, 190, 72, 0.16) !important;
+}
+
+#section-c6yJgt9wX .row-MQR8LjPXfx {
+  background:
+    linear-gradient(180deg, rgba(39, 29, 14, 0.15), rgba(18, 13, 8, 0.15)) !important;
+  border: 1px solid rgba(255, 196, 86, 0.1) !important;
+  backdrop-filter: blur(8px);
+  border-radius: var(--radius-premium);
+}
+
 .hero-wistia-embed {
   position: relative;
   width: 100%;
   padding-top: 56.25%;
-  border-radius: 10px;
+  border-radius: var(--radius-premium);
   overflow: hidden;
+  isolation: isolate;
   background: #000;
+  box-shadow:
+    0 0 0 1px rgba(255, 200, 74, 0.15),
+    0 22px 64px rgba(0, 0, 0, 0.6),
+    0 0 32px rgba(255, 195, 67, 0.08);
+}
+
+.hero-wistia-embed::before {
+  content: "";
+  position: absolute;
+  inset: -26px -34px -34px;
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 50% 14%, rgba(255, 219, 115, 0.1) 0%, rgba(255, 179, 33, 0.02) 52%, transparent 74%);
+  filter: blur(20px);
+  z-index: -1;
+  pointer-events: none;
 }
 
 .hero-wistia-embed iframe {
@@ -58,10 +119,14 @@ body {
   right: 0;
   bottom: 0;
   z-index: 9999;
+  background: rgba(5, 5, 5, 0.8) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 #section-5oa_veNL0R .row-ko6CZXkA25 {
-  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  border-top: none !important;
 }
 
 #preview-container {
@@ -69,14 +134,41 @@ body {
 }
 
 :root {
-  --theme-bg: #0B0B0B;
-  --theme-surface: #121212;
-  --theme-text: #FFFFFF;
+  --theme-bg: #050505;
+  --theme-surface: rgba(18, 18, 18, 0.72);
+  --theme-surface-opaque: #0D0D0D;
+  --theme-card-bg: rgba(22, 22, 22, 0.6);
+  --theme-text: #F9FAFB;
   --theme-text-secondary: #9CA3AF;
   --theme-accent: #FFC107;
   --theme-accent-hover: #FFD54F;
-  --theme-border: #1F1F1F;
+  --theme-border: rgba(255, 255, 255, 0.04);
+  --theme-border-accent: rgba(255, 193, 7, 0.12);
   --theme-on-accent: #000000;
+  --glass-border: 1px solid rgba(255, 255, 255, 0.06);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  --radius-premium: 14px;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  background: var(--theme-bg);
+}
+
+#pixel-root {
+  width: 100%;
+  overflow-x: hidden;
+  position: relative;
+  background: 
+    radial-gradient(circle at 10% 20%, rgba(255, 193, 7, 0.03) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(255, 193, 7, 0.03) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(255, 193, 7, 0.01) 0%, transparent 80%),
+    var(--theme-bg);
+  background-attachment: fixed;
 }
 
 html,
@@ -92,18 +184,78 @@ body,
 
 [class*="section-"],
 [class*="row-"] {
-  background: var(--theme-bg) !important;
-  background-color: var(--theme-bg) !important;
+  background: transparent !important;
+  background-color: transparent !important;
   background-image: none !important;
   border-color: var(--theme-border) !important;
+  position: relative;
 }
 
-[class*="col-"] > .inner,
+/* Add a subtle fade between sections */
+[class*="section-"]::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+  background: linear-gradient(0deg, var(--theme-bg) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Styling ONLY the inner content of a column to avoid "nested boxes" look */
+[class*="col-"] > .inner {
+  background: var(--theme-card-bg) !important;
+  background-color: var(--theme-card-bg) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border-radius: var(--radius-premium) !important;
+  border: var(--glass-border) !important;
+  box-shadow: var(--glass-shadow) !important;
+  padding: 24px !important;
+  height: 100% !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  display: flex !important;
+  flex-direction: column !important;
+  box-sizing: border-box !important;
+}
+
+/* Ensure the outer column is transparent and has consistent spacing */
 [class*="col-"] {
-  background: var(--theme-surface) !important;
-  background-color: var(--theme-surface) !important;
-  background-image: none !important;
-  border-color: var(--theme-border) !important;
+  background: transparent !important;
+  padding: 10px !important;
+  box-sizing: border-box !important;
+}
+
+[class*="col-"] > .inner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--theme-border-accent) 50%, transparent 100%);
+  z-index: 2;
+  opacity: 0.5;
+}
+
+[class*="col-"] > .inner:hover {
+  transform: translateY(-4px);
+  border-color: var(--theme-border-accent) !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 193, 7, 0.08) !important;
+}
+
+/* Fix row spacing for better symmetry */
+[class*="row-"] {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  margin: 0 auto !important;
+  max-width: 1200px !important;
+  padding: 20px 0 !important;
 }
 
 h1,
@@ -220,28 +372,41 @@ textarea,
   align-items: center;
   justify-content: center;
   padding: 22px;
-  background: rgba(0, 0, 0, 0.82);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
+  background: rgba(5, 5, 5, 0.85); /* Darker, more premium overlay */
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
 .qualifier-modal {
-  width: min(760px, 100%);
+  width: min(760px, 95%);
   position: relative;
-  border-radius: 18px;
-  border: 1px solid rgba(255, 191, 64, 0.52);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 191, 64, 0.25) !important;
   background:
-    radial-gradient(circle at 50% -28%, rgba(255, 186, 30, 0.2), transparent 58%),
-    linear-gradient(180deg, #0f1117 0%, #090b10 52%, #06070b 100%) !important;
+    radial-gradient(circle at 50% -20%, rgba(255, 193, 7, 0.1), transparent 70%),
+    linear-gradient(180deg, rgba(15, 17, 23, 0.98), rgba(8, 9, 12, 1)) !important;
   box-shadow:
-    0 0 0 1px rgba(255, 191, 64, 0.18) inset,
-    0 0 28px rgba(255, 179, 36, 0.34),
-    0 22px 64px rgba(0, 0, 0, 0.76),
-    0 0 80px rgba(255, 174, 24, 0.2);
-  padding: 22px 24px 24px;
+    0 0 0 1px rgba(255, 255, 255, 0.03) inset,
+    0 25px 50px -12px rgba(0, 0, 0, 0.8),
+    0 0 30px rgba(255, 193, 7, 0.05);
+  padding: 32px;
   color: #f4f5f7 !important;
   font-family: var(--manrope), var(--plus-jakarta-sans), sans-serif;
-  animation: qualifier-pop 220ms ease-out;
+  animation: qualifier-pop 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+/* Subtle glow behind the modal content */
+.qualifier-modal::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at center, rgba(255, 193, 7, 0.03), transparent 70%);
+  pointer-events: none;
+  z-index: -1;
 }
 
 .qualifier-close {

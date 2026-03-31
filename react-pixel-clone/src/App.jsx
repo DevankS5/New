@@ -1,5 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import replicaMarkup from "./replica/replica.html?raw";
+import {
+  QUALIFIER_FLOW_CONFIG,
+  createInitialQualifierFormState,
+  getQualifierProgress,
+  getQualifierSuccessCopy,
+} from "./qualifierFlow";
 
 const HERO_WISTIA_EMBED_URL =
   "https://fast.wistia.net/embed/iframe/68l35pjer0?seo=true&videoFoam=true";
@@ -26,16 +32,9 @@ function getTimeLeft() {
 
 function App() {
   const [isQualifierOpen, setIsQualifierOpen] = useState(false);
-  const [qualifierStep, setQualifierStep] = useState(0);
+  const [qualifierScreenIndex, setQualifierScreenIndex] = useState(0);
   const [qualifierError, setQualifierError] = useState("");
-  const [qualifierForm, setQualifierForm] = useState({
-    fullName: "",
-    email: "",
-    phone: "",
-    businessType: "",
-    monthlyRevenue: "",
-    priority: "",
-  });
+  const [qualifierForm, setQualifierForm] = useState(() => createInitialQualifierFormState());
 
   const cleanedMarkup = useMemo(() => {
     const doc = new DOMParser().parseFromString(replicaMarkup, "text/html");
@@ -195,16 +194,9 @@ function App() {
 
       event.preventDefault();
       event.stopPropagation();
-      setQualifierForm({
-        fullName: "",
-        email: "",
-        phone: "",
-        businessType: "",
-        monthlyRevenue: "",
-        priority: "",
-      });
+      setQualifierForm(createInitialQualifierFormState());
       setQualifierError("");
-      setQualifierStep(0);
+      setQualifierScreenIndex(0);
       setIsQualifierOpen(true);
     };
 
@@ -232,37 +224,103 @@ function App() {
     };
   }, [isQualifierOpen]);
 
+  const questionPages = QUALIFIER_FLOW_CONFIG.pages;
+  const firstQuestionScreenIndex = 1;
+  const successScreenIndex = questionPages.length + 1;
+  const isIntroScreen = qualifierScreenIndex === 0;
+  const isSuccessScreen = qualifierScreenIndex === successScreenIndex;
+  const activeQuestionPageIndex = qualifierScreenIndex - 1;
+  const activeQuestionPage = questionPages[activeQuestionPageIndex] ?? null;
+  const qualifierProgress = getQualifierProgress(qualifierScreenIndex, QUALIFIER_FLOW_CONFIG);
+
   const handleQualifierInput = (event) => {
-    const { name, value } = event.target;
-    setQualifierForm((prev) => ({ ...prev, [name]: value }));
+    const { name, value, type, checked } = event.target;
+    setQualifierForm((prev) => ({ ...prev, [name]: type === "checkbox" ? checked : value }));
   };
 
   const closeQualifier = () => {
     setIsQualifierOpen(false);
   };
 
-  const handleQualifierSubmit = (event) => {
-    event.preventDefault();
-
-    const requiredValues = [
-      qualifierForm.fullName,
-      qualifierForm.email,
-      qualifierForm.phone,
-      qualifierForm.businessType,
-      qualifierForm.monthlyRevenue,
-      qualifierForm.priority,
-    ];
-
-    if (requiredValues.some((value) => value.trim() === "")) {
-      setQualifierError("Please complete all fields to continue.");
+  const startQualifierFlow = () => {
+    setQualifierError("");
+    if (questionPages.length === 0) {
+      setQualifierScreenIndex(successScreenIndex);
       return;
     }
 
-    setQualifierError("");
-    setQualifierStep(2);
+    setQualifierScreenIndex(firstQuestionScreenIndex);
   };
 
-  const qualifierProgress = qualifierStep === 0 ? 32 : qualifierStep === 1 ? 72 : 100;
+  const goToPreviousQualifierScreen = () => {
+    setQualifierError("");
+    setQualifierScreenIndex((prev) => Math.max(0, prev - 1));
+  };
+
+  const handleQualifierPageSubmit = (event) => {
+    event.preventDefault();
+    if (!activeQuestionPage) return;
+
+    const hasMissingRequiredField = activeQuestionPage.fields.some((field) => {
+      if (!field.required) return false;
+      const value = qualifierForm[field.name];
+      return String(value ?? "").trim() === "";
+    });
+
+    if (hasMissingRequiredField) {
+      setQualifierError("Please complete all required fields to continue.");
+      return;
+    }
+
+    const isLastQuestionPage = activeQuestionPageIndex === questionPages.length - 1;
+    setQualifierError("");
+
+    if (isLastQuestionPage) {
+      setQualifierScreenIndex(successScreenIndex);
+      return;
+    }
+
+    setQualifierScreenIndex((prev) => prev + 1);
+  };
+
+  const renderQualifierField = (field) => {
+    const fieldId = `qualifier-field-${field.name}`;
+    const fieldClassName = `qualifier-field${field.fullWidth ? " qualifier-field--full" : ""}`;
+
+    if (field.type === "select") {
+      return (
+        <label className={fieldClassName} key={field.name}>
+          <span>{field.label}</span>
+          <select
+            id={fieldId}
+            name={field.name}
+            value={qualifierForm[field.name] ?? ""}
+            onChange={handleQualifierInput}
+          >
+            {(field.options || []).map((option) => (
+              <option key={`${field.name}-${option.value}`} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </label>
+      );
+    }
+
+    return (
+      <label className={fieldClassName} key={field.name}>
+        <span>{field.label}</span>
+        <input
+          id={fieldId}
+          name={field.name}
+          type={field.type || "text"}
+          placeholder={field.placeholder || ""}
+          value={qualifierForm[field.name] ?? ""}
+          onChange={handleQualifierInput}
+        />
+      </label>
+    );
+  };
 
   return (
     <>
@@ -286,7 +344,7 @@ function App() {
               x
             </button>
 
-            <p className="qualifier-eyebrow">CONSULTANTS & AGENCIES</p>
+            <p className="qualifier-eyebrow">{QUALIFIER_FLOW_CONFIG.eyebrowLabel}</p>
 
             <div className="qualifier-progress-shell" aria-hidden="true">
               <div
@@ -295,134 +353,61 @@ function App() {
               />
             </div>
 
-            {qualifierStep === 0 ? (
+            {isIntroScreen ? (
               <div className="qualifier-step">
-                <h2 id="qualifier-title">Let&apos;s See If You Qualify to Work With Us</h2>
-                <p className="qualifier-copy">
-                  This application will take 60 seconds.
-                  <br />
-                  Start below:
-                </p>
+                <h2 id="qualifier-title">{QUALIFIER_FLOW_CONFIG.intro.title}</h2>
+                <p className="qualifier-copy">{QUALIFIER_FLOW_CONFIG.intro.copy}</p>
 
                 <button
                   type="button"
                   className="qualifier-progress-trigger"
-                  onClick={() => setQualifierStep(1)}
+                  onClick={startQualifierFlow}
                 >
-                  Let&apos;s Start...
+                  {QUALIFIER_FLOW_CONFIG.intro.ctaLabel}
                 </button>
 
                 <div className="qualifier-preview-box" aria-hidden="true" />
               </div>
             ) : null}
 
-            {qualifierStep === 1 ? (
+            {activeQuestionPage ? (
               <div className="qualifier-step">
-                <h2 id="qualifier-title">Quick Qualification</h2>
-                <p className="qualifier-copy">
-                  Share a few details so our team can confirm fit and reach out quickly.
-                </p>
+                <h2 id="qualifier-title">{activeQuestionPage.title}</h2>
+                <p className="qualifier-copy">{activeQuestionPage.copy}</p>
 
-                <form className="qualifier-form" onSubmit={handleQualifierSubmit}>
+                <form className="qualifier-form" onSubmit={handleQualifierPageSubmit}>
                   <div className="qualifier-field-grid">
-                    <label className="qualifier-field">
-                      <span>Full Name</span>
-                      <input
-                        name="fullName"
-                        type="text"
-                        placeholder="Your name"
-                        value={qualifierForm.fullName}
-                        onChange={handleQualifierInput}
-                      />
-                    </label>
-
-                    <label className="qualifier-field">
-                      <span>Email</span>
-                      <input
-                        name="email"
-                        type="email"
-                        placeholder="you@company.com"
-                        value={qualifierForm.email}
-                        onChange={handleQualifierInput}
-                      />
-                    </label>
-
-                    <label className="qualifier-field">
-                      <span>WhatsApp Number</span>
-                      <input
-                        name="phone"
-                        type="tel"
-                        placeholder="+91"
-                        value={qualifierForm.phone}
-                        onChange={handleQualifierInput}
-                      />
-                    </label>
-
-                    <label className="qualifier-field">
-                      <span>Business Type</span>
-                      <select
-                        name="businessType"
-                        value={qualifierForm.businessType}
-                        onChange={handleQualifierInput}
-                      >
-                        <option value="">Select</option>
-                        <option value="Consultant">Consultant</option>
-                        <option value="Agency">Agency</option>
-                        <option value="Coach">Coach</option>
-                        <option value="Course Creator">Course Creator</option>
-                      </select>
-                    </label>
-
-                    <label className="qualifier-field">
-                      <span>Monthly Revenue</span>
-                      <select
-                        name="monthlyRevenue"
-                        value={qualifierForm.monthlyRevenue}
-                        onChange={handleQualifierInput}
-                      >
-                        <option value="">Select</option>
-                        <option value="Below 1L">Below 1L</option>
-                        <option value="1L - 5L">1L - 5L</option>
-                        <option value="5L - 15L">5L - 15L</option>
-                        <option value="15L+">15L+</option>
-                      </select>
-                    </label>
-
-                    <label className="qualifier-field">
-                      <span>Primary Goal</span>
-                      <select
-                        name="priority"
-                        value={qualifierForm.priority}
-                        onChange={handleQualifierInput}
-                      >
-                        <option value="">Select</option>
-                        <option value="More qualified calls">More qualified calls</option>
-                        <option value="Higher close rates">Higher close rates</option>
-                        <option value="Automation">Automation</option>
-                        <option value="End-to-end growth system">End-to-end growth system</option>
-                      </select>
-                    </label>
+                    {activeQuestionPage.fields.map((field) => renderQualifierField(field))}
                   </div>
 
                   {qualifierError ? <p className="qualifier-error">{qualifierError}</p> : null}
 
-                  <button type="submit" className="qualifier-submit-btn">
-                    Submit Application
-                  </button>
+                  <div className="qualifier-actions">
+                    <button
+                      type="button"
+                      className="qualifier-back-btn"
+                      onClick={goToPreviousQualifierScreen}
+                    >
+                      Back
+                    </button>
+
+                    <button type="submit" className="qualifier-submit-btn">
+                      {activeQuestionPage.submitLabel || "Continue"}
+                    </button>
+                  </div>
                 </form>
               </div>
             ) : null}
 
-            {qualifierStep === 2 ? (
+            {isSuccessScreen ? (
               <div className="qualifier-step qualifier-step-success">
-                <h2 id="qualifier-title">You&apos;re In</h2>
+                <h2 id="qualifier-title">{QUALIFIER_FLOW_CONFIG.success.title}</h2>
                 <p className="qualifier-copy">
-                  Thanks, {qualifierForm.fullName.split(" ")[0]}. Your application is received. Our
-                  team will contact you within 24 hours.
+                  {getQualifierSuccessCopy(qualifierForm, QUALIFIER_FLOW_CONFIG)}
                 </p>
 
                 <button type="button" className="qualifier-submit-btn" onClick={closeQualifier}>
-                  Close
+                  {QUALIFIER_FLOW_CONFIG.success.ctaLabel}
                 </button>
               </div>
             ) : null}

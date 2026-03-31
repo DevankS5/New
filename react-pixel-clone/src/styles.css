@@ -17,6 +17,40 @@ body {
   overflow-x: hidden;
 }
 
+.hero-wistia-embed {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #000;
+}
+
+.hero-wistia-embed iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.testimonial-wistia-embed {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #000;
+}
+
+.testimonial-wistia-embed iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
 /* Keep the final "Apply today" CTA visible through the full page scroll. */
 #section-5oa_veNL0R {
   position: fixed !important;
@@ -175,5 +209,266 @@ textarea,
 
   #preview-container {
     padding-bottom: 170px;
+  }
+}
+
+.qualifier-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10020;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(4, 6, 10, 0.74);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+
+.qualifier-modal {
+  width: min(420px, 100%);
+  position: relative;
+  border-radius: 10px;
+  border: 4px solid rgba(124, 96, 151, 0.68);
+  background:
+    radial-gradient(circle at 18% -8%, rgba(183, 120, 255, 0.42), transparent 45%),
+    linear-gradient(180deg, #2d0144 0%, #200032 58%, #1a0029 100%) !important;
+  box-shadow: 0 24px 60px rgba(6, 0, 14, 0.72), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+  padding: 18px 18px 22px;
+  color: #f6f3fb !important;
+  font-family: var(--manrope), var(--plus-jakarta-sans), sans-serif;
+  animation: qualifier-pop 220ms ease-out;
+}
+
+.qualifier-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  border: 2px solid rgba(255, 255, 255, 0.56) !important;
+  background: linear-gradient(180deg, #26222f, #17141f) !important;
+  color: #ffffff !important;
+  font-size: 18px;
+  line-height: 1;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 160ms ease;
+}
+
+.qualifier-close:hover {
+  transform: scale(1.05);
+}
+
+.qualifier-eyebrow {
+  margin: 2px 38px 12px 0;
+  text-align: center;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: rgba(216, 202, 233, 0.84) !important;
+}
+
+.qualifier-progress-shell {
+  height: 20px;
+  border-radius: 999px;
+  border: 1px solid rgba(236, 212, 255, 0.14);
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.qualifier-progress-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #8f3df8, #c059f8 55%, #f09bff);
+  box-shadow: 0 0 18px rgba(197, 109, 255, 0.42);
+  transition: width 280ms ease;
+  position: relative;
+}
+
+.qualifier-progress-fill::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 10%, rgba(255, 255, 255, 0.4) 48%, transparent 90%);
+  transform: translateX(-100%);
+  animation: qualifier-shimmer 2.6s linear infinite;
+}
+
+.qualifier-step h2 {
+  margin: 0 0 10px;
+  text-align: center;
+  font-size: clamp(2rem, 7vw, 3.25rem);
+  line-height: 1.14;
+  letter-spacing: -0.02em;
+  font-weight: 800;
+  color: #f0e8fb !important;
+  text-wrap: balance;
+}
+
+.qualifier-copy {
+  margin: 0 0 16px;
+  text-align: center;
+  font-size: 16px;
+  line-height: 1.35;
+  color: rgba(229, 214, 245, 0.95) !important;
+}
+
+.qualifier-progress-trigger {
+  width: 100%;
+  height: 28px;
+  border-radius: 999px;
+  border: 1px solid rgba(229, 201, 255, 0.25) !important;
+  background:
+    linear-gradient(
+      90deg,
+      #7f36e8 0%,
+      #b96bff 38%,
+      rgba(255, 255, 255, 0.16) 42%,
+      rgba(255, 255, 255, 0.05) 100%
+    ) !important;
+  color: #f8f5ff !important;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 14px;
+  margin: 0 0 22px;
+  cursor: pointer;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 10px 24px rgba(20, 0, 35, 0.5);
+}
+
+.qualifier-progress-trigger:hover {
+  filter: brightness(1.06);
+}
+
+.qualifier-preview-box {
+  height: 120px;
+  border-radius: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.44);
+  background: linear-gradient(180deg, #f4f4f5, #e9e9eb);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
+.qualifier-form {
+  margin-top: 12px;
+}
+
+.qualifier-field-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.qualifier-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.qualifier-field span {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(225, 208, 241, 0.78) !important;
+}
+
+.qualifier-field input,
+.qualifier-field select {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid rgba(236, 213, 255, 0.24) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #ffffff !important;
+  font-size: 14px;
+  line-height: 1.2;
+  padding: 11px 12px;
+}
+
+.qualifier-field input::placeholder {
+  color: rgba(231, 220, 245, 0.56);
+}
+
+.qualifier-field input:focus,
+.qualifier-field select:focus {
+  border-color: rgba(206, 146, 255, 0.9) !important;
+  box-shadow: 0 0 0 3px rgba(148, 87, 232, 0.26);
+  outline: none;
+}
+
+.qualifier-field select option {
+  color: #1b0628;
+}
+
+.qualifier-error {
+  margin: 12px 0 0;
+  text-align: center;
+  color: #ffb6ce !important;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.qualifier-submit-btn {
+  width: 100%;
+  margin-top: 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(244, 221, 255, 0.32) !important;
+  background: linear-gradient(180deg, #8e44f8, #6f2bd1) !important;
+  color: #ffffff !important;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  padding: 12px 14px;
+  cursor: pointer;
+  box-shadow: 0 12px 24px rgba(26, 0, 45, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.26);
+}
+
+.qualifier-submit-btn:hover {
+  filter: brightness(1.07);
+}
+
+.qualifier-step-success {
+  text-align: center;
+  padding-bottom: 4px;
+}
+
+@keyframes qualifier-pop {
+  from {
+    transform: translateY(12px) scale(0.98);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes qualifier-shimmer {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@media (max-width: 540px) {
+  .qualifier-overlay {
+    padding: 12px;
+    align-items: flex-start;
+    overflow-y: auto;
+  }
+
+  .qualifier-modal {
+    margin-top: 22px;
+    padding: 16px 14px 18px;
+  }
+
+  .qualifier-field-grid {
+    grid-template-columns: minmax(0, 1fr);
   }
 }

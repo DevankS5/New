@@ -197,10 +197,11 @@ body,
   overflow-x: hidden;
   position: relative;
   background: 
-    radial-gradient(circle at 10% 20%, rgba(255, 193, 7, 0.03) 0%, transparent 40%),
-    radial-gradient(circle at 90% 80%, rgba(255, 193, 7, 0.03) 0%, transparent 40%),
-    radial-gradient(circle at 50% 50%, rgba(255, 193, 7, 0.01) 0%, transparent 80%),
-    radial-gradient(circle at 50% 100%, rgba(255, 193, 7, 0.12) 0%, transparent 50%),
+    radial-gradient(circle at 10% 20%, rgba(255, 193, 7, 0.04) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(255, 193, 7, 0.04) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(255, 193, 7, 0.02) 0%, transparent 80%),
+    /* Stronger golden gradient for bottom sections */
+    radial-gradient(circle at 50% 100%, rgba(255, 190, 40, 0.3) 0%, rgba(255, 150, 0, 0.15) 30%, transparent 70%),
     var(--theme-bg);
   background-attachment: fixed;
 }
@@ -909,4 +910,250 @@ textarea,
     0 10px 20px rgba(0, 0, 0, 0.5), 
     0 0 25px rgba(255, 225, 50, 0.5) !important;
   transform: translateY(-2px);
+}
+
+/* 3-Step Process Images (Reality-Check Audit, etc.) */
+#row-44jvZRfpL86 [class*="col-"] > .inner {
+  align-items: center !important;
+  text-align: center !important;
+}
+
+#row-44jvZRfpL86 [id^="image-"] {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+#row-44jvZRfpL86 [id^="image-"] img {
+  width: 100% !important;
+  max-width: 380px !important;
+  height: auto !important;
+  border-radius: var(--radius-premium) !important;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), 0 0 1px 1px rgba(255, 193, 7, 0.1) !important;
+  object-fit: cover;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+}
+
+#row-44jvZRfpL86 [class*="col-"] > .inner:hover [id^="image-"] img {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 193, 7, 0.2) !important;
+}
+
+/* ===== GOLDEN AMBIENT GLOW - BOTTOM SECTIONS ===== */
+/* Make the gradient work by ensuring pixel-root keeps its background */
+#pixel-root {
+  background:
+    radial-gradient(ellipse at 15% 8%, rgba(255, 210, 60, 0.13) 0%, transparent 35%),
+    radial-gradient(ellipse at 85% 5%, rgba(255, 180, 30, 0.08) 0%, transparent 30%),
+    radial-gradient(ellipse at 50% 45%, rgba(255, 193, 7, 0.06) 0%, transparent 55%),
+    radial-gradient(ellipse at 10% 85%, rgba(255, 190, 40, 0.12) 0%, transparent 40%),
+    radial-gradient(ellipse at 90% 90%, rgba(255, 160, 20, 0.10) 0%, transparent 35%),
+    radial-gradient(ellipse at 50% 100%, rgba(255, 190, 40, 0.38) 0%, rgba(255, 150, 0, 0.20) 30%, transparent 62%),
+    #050505 !important;
+  background-attachment: fixed !important;
+}
+
+/* Golden ambient glows across key sections mid-page */
+[class*="section-"] {
+  position: relative;
+}
+
+/* Our Guarantee section glow */
+#row-mMXAyTI-HBx {
+  position: relative;
+}
+#row-mMXAyTI-HBx::before {
+  content: "";
+  position: absolute;
+  inset: -80px -40px;
+  background: radial-gradient(ellipse at 50% 50%, rgba(255, 210, 60, 0.10) 0%, rgba(255, 160, 0, 0.04) 45%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Countdown / timer section glow */
+[id*="countdown"], .countdown-section, #custom-code-GidRb_l5az {
+  position: relative;
+}
+[id*="countdown"]::before, .countdown-section::before {
+  content: "";
+  position: absolute;
+  inset: -40px;
+  background: radial-gradient(ellipse at 50% 50%, rgba(255, 193, 7, 0.08) 0%, transparent 65%);
+  filter: blur(20px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Footer area glow */
+[id*="paragraph-7aMriBXlg3"],
+[id*="paragraph-q4UkRXMxjO"] {
+  position: relative;
+}
+
+/* ===== MOBILE SPACING FIXES ===== */
+@media screen and (max-width: 768px) {
+  /* Reduce massive gaps between sections on mobile */
+  [class*="section-"] {
+    padding-top: 16px !important;
+    padding-bottom: 16px !important;
+  }
+
+  /* Tighten row padding on mobile */
+  [class*="row-"] > .inner {
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+  }
+
+  /* Column inner padding reduction */
+  [class*="col-"] > .inner {
+    padding: 10px 12px !important;
+  }
+
+  /* Guarantee section - remove giant padding */
+  #row-mMXAyTI-HBx > .inner {
+    padding: 20px 16px !important;
+  }
+
+  /* Countdown section spacing */
+  .countdown-section {
+    padding: 16px 8px !important;
+  }
+
+  /* Footer disclaimer text - compact */
+  [id*="paragraph-7aMriBXlg3"] .text-output,
+  [id*="paragraph-q4UkRXMxjO"] .text-output {
+    padding: 8px !important;
+  }
+
+  /* Remove excessive margin between bottom CTA and footer */
+  #preview-container {
+    padding-bottom: 80px !important;
+  }
+}
+
+/* ================================================================
+   SITE-WIDE GOLDEN AMBIENT GLOW SYSTEM
+   Replicates the hero section warmth across the whole page
+   ================================================================ */
+
+/* 1. Warm base background â€” replaces cold #111112 body */
+body {
+  background: #0e0b06 !important;
+}
+
+/* 2. Every section gets a warm left-edge radial glow (alternating sides) */
+[class*="section-"] {
+  position: relative;
+  isolation: isolate;
+}
+
+/* Odd sections: glow from top-left */
+[class*="section-"]:nth-child(odd)::before {
+  content: "";
+  position: absolute;
+  top: -60px;
+  left: -80px;
+  width: 55%;
+  height: 120%;
+  background: radial-gradient(ellipse at 0% 30%, rgba(255, 200, 60, 0.10) 0%, rgba(255, 165, 0, 0.04) 45%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Even sections: glow from top-right */
+[class*="section-"]:nth-child(even)::before {
+  content: "";
+  position: absolute;
+  top: -60px;
+  right: -80px;
+  width: 55%;
+  height: 120%;
+  background: radial-gradient(ellipse at 100% 30%, rgba(255, 190, 40, 0.09) 0%, rgba(255, 140, 0, 0.03) 45%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 3. Every section also gets a centered bottom warm upwelling */
+[class*="section-"]::after {
+  content: "";
+  position: absolute;
+  bottom: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 200px;
+  background: radial-gradient(ellipse at 50% 100%, rgba(255, 185, 30, 0.07) 0%, transparent 65%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 4. All inner content sits on top of glow layers */
+[class*="section-"] > .inner,
+[class*="row-"],
+[class*="col-"] {
+  position: relative;
+  z-index: 1;
+}
+
+/* ================================================================
+   MOBILE SPACING OVERRIDES (condensed)
+   ================================================================ */
+@media screen and (max-width: 768px) {
+  [class*="section-"]:not(#section-c6yJgt9wX):not(#section-5oa_veNL0R) {
+    padding-top: 20px !important;
+    padding-bottom: 20px !important;
+  }
+}
+
+/* ================================================================
+   TARGETED GOLDEN SPOTLIGHTS - Bottom Sections
+   Punching through dark card backgrounds
+   ================================================================ */
+
+/* Countdown + Guarantee parent section - strong golden center glow */
+#row-mMXAyTI-HBx::before,
+#row-mMXAyTI-HBx::after {
+  display: none !important;
+}
+#row-mMXAyTI-HBx {
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(255, 200, 60, 0.18) 0%, rgba(255, 160, 0, 0.06) 45%, transparent 65%),
+    radial-gradient(ellipse at 50% 100%, rgba(255, 185, 30, 0.12) 0%, transparent 55%) !important;
+  position: relative;
+}
+
+/* The dark card inside guarantee - make it semi-translucent so golden row glow bleeds through */
+#row-mMXAyTI-HBx [class*="col-"] > .inner {
+  background: rgba(10, 8, 4, 0.55) !important;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 185, 30, 0.12) !important;
+}
+
+/* Countdown custom code wrapper - golden glow behind it */
+.countdown-section {
+  background:
+    radial-gradient(ellipse at 50% 50%, rgba(255, 193, 7, 0.10) 0%, transparent 60%) !important;
+  position: relative;
+}
+
+/* ALL testimonial cards - semi-transparent so glow shows through */
+[class*="col-"] > .inner {
+  background: rgba(15, 12, 6, 0.6) !important;
+}
+
+/* The parent rows that contain testimonials/content - golden ambient */
+[id^="row-"]:not([id="row-ko6CZXkA25"]) {
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(255, 195, 50, 0.05) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 50%, rgba(255, 170, 20, 0.04) 0%, transparent 50%),
+    transparent !important;
+}
+
+/* Footer area - warm upwelling */
+[id*="paragraph-7aMriBXlg3"],
+[id*="paragraph-q4UkRXMxjO"] {
+  background:
+    radial-gradient(ellipse at 50% 50%, rgba(255, 190, 40, 0.06) 0%, transparent 70%) !important;
 }

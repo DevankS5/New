@@ -21,7 +21,8 @@ body {
   position: relative;
   isolation: isolate;
   background:
-    radial-gradient(circle at 50% 0%, rgba(255, 214, 108, 0.08), rgba(255, 214, 108, 0) 48%),
+    linear-gradient(180deg, rgba(255, 193, 7, 0.12) 0%, rgba(5, 5, 5, 0) 35%),
+    radial-gradient(ellipse at 50% 0%, rgba(255, 214, 108, 0.15), transparent 50%),
     radial-gradient(circle at 50% 100%, rgba(255, 168, 32, 0.1), rgba(255, 168, 32, 0) 60%),
     transparent !important;
   border-bottom: 1px solid rgba(255, 185, 63, 0.1) !important;
@@ -32,7 +33,7 @@ body {
   position: absolute;
   inset: -120px -120px auto;
   height: 480px;
-  background: radial-gradient(circle at 50% 10%, rgba(255, 201, 84, 0.06) 0%, rgba(255, 201, 84, 0) 72%);
+  background: radial-gradient(circle at 50% 10%, rgba(255, 193, 7, 0.1) 0%, rgba(255, 193, 7, 0) 72%);
   filter: blur(40px);
   pointer-events: none;
   z-index: 0;
@@ -43,10 +44,42 @@ body {
 #section-c6yJgt9wX [id^="row-"] > .inner,
 #section-c6yJgt9wX [id^="col-"],
 #section-c6yJgt9wX [id^="col-"] > .inner {
+  background: transparent !important;
   background-color: transparent !important;
   background-image: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   position: relative;
   z-index: 1;
+}
+
+#section-c6yJgt9wX [id^="col-"] > .inner::before {
+  display: none !important;
+}
+
+#section-c6yJgt9wX [id^="col-"] > .inner:hover {
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* "For Serious Coaches" Pill Styling */
+#row-Ai-RlX1m9T {
+  text-align: center !important;
+}
+
+#row-Ai-RlX1m9T h2 {
+  font-size: 11px !important;
+  letter-spacing: 1.2px !important;
+  margin: 0 auto 12px !important;
+  padding: 6px 14px !important;
+  background: rgba(255, 193, 7, 0.08) !important;
+  border: 1px solid rgba(255, 193, 7, 0.25) !important;
+  border-radius: 100px !important;
+  display: inline-block !important;
+  text-transform: uppercase !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important;
 }
 
 #section-c6yJgt9wX [id^="row-"] {
@@ -167,6 +200,7 @@ body,
     radial-gradient(circle at 10% 20%, rgba(255, 193, 7, 0.03) 0%, transparent 40%),
     radial-gradient(circle at 90% 80%, rgba(255, 193, 7, 0.03) 0%, transparent 40%),
     radial-gradient(circle at 50% 50%, rgba(255, 193, 7, 0.01) 0%, transparent 80%),
+    radial-gradient(circle at 50% 100%, rgba(255, 193, 7, 0.12) 0%, transparent 50%),
     var(--theme-bg);
   background-attachment: fixed;
 }
@@ -246,6 +280,27 @@ body,
   transform: translateY(-4px);
   border-color: var(--theme-border-accent) !important;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 193, 7, 0.08) !important;
+}
+
+/* Remove boxy nature from the numbers section (match purple site) */
+#section-c0hIgzyY28 [class*="col-"] > .inner {
+  background: transparent !important;
+  background-color: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 10px !important; /* Keep a bit of padding for text spacing */
+}
+
+#section-c0hIgzyY28 [class*="col-"] > .inner::before {
+  display: none !important;
+}
+
+#section-c0hIgzyY28 [class*="col-"] > .inner:hover {
+  transform: none !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
 }
 
 /* Fix row spacing for better symmetry */
@@ -345,22 +400,103 @@ textarea,
 }
 
 @media screen and (max-width: 768px) {
-  #section-5oa_veNL0R .col-AUD3nkrqFu {
+  #section-5oa_veNL0R {
+    padding: 6px !important;
+  }
+
+  #section-5oa_veNL0R .row-ko6CZXkA25 > .inner,
+  #section-5oa_veNL0R [id^="row-"] > .inner {
+    padding: 0 !important;
+  }
+
+  /* Target the horizontal wrapper inside the single column that holds both button and text */
+  #section-5oa_veNL0R #col-AUD3nkrqFu > .horizontal.inner {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 8px !important;
+    padding: 0 4px !important;
+  }
+
+  #section-5oa_veNL0R [id^="col-"] {
     width: 100% !important;
+    padding: 0 !important;
+    flex: 1 1 auto !important;
   }
 
-  #section-5oa_veNL0R #col-AUD3nkrqFu > .inner {
-    gap: 10px;
-    padding: 10px 12px;
+  #section-5oa_veNL0R #heading-m0hAtyTXT6 {
+    margin: 0 !important;
+    flex: 1 1 auto;
+    text-align: left !important;
+  }
+  
+  #section-5oa_veNL0R #heading-m0hAtyTXT6 h1 {
+    font-size: 13px !important;
+    line-height: 1.2 !important;
+    text-align: left !important;
   }
 
-  #section-5oa_veNL0R .button-8IFTmg9LF_ {
-    margin-top: 6px;
-    width: 100%;
+  #section-5oa_veNL0R #button-8IFTmg9LF_ {
+    margin: 0 !important;
+    flex: 0 0 auto;
+  }
+
+  #section-5oa_veNL0R #button-8IFTmg9LF__btn {
+    padding: 8px 14px !important;
+    font-size: 12px !important;
+    margin-top: 0 !important;
+    white-space: nowrap !important;
+    width: auto !important;
   }
 
   #preview-container {
-    padding-bottom: 170px;
+    padding-bottom: 70px !important;
+  }
+
+  /* Compact Hero Layout for Mobile (Purple Reference) */
+  #section-c6yJgt9wX > .inner {
+    padding-top: 16px !important;
+    padding-bottom: 12px !important;
+  }
+
+  #section-c6yJgt9wX [id^="row-"] {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  #section-c6yJgt9wX [id^="col-"] {
+    padding: 0 !important;
+  }
+
+  #section-c6yJgt9wX [id^="col-"] > .inner {
+    padding: 6px !important;
+  }
+
+  #section-c6yJgt9wX h1 {
+    font-size: clamp(30px, 8vw, 36px) !important;
+    margin-bottom: 4px !important;
+    line-height: 1.15 !important;
+  }
+
+  #section-c6yJgt9wX p {
+    font-size: 14px !important;
+    margin-bottom: 6px !important;
+    line-height: 1.4 !important;
+  }
+
+  .hero-wistia-embed {
+    border-radius: 12px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+    margin-bottom: 8px !important;
+  }
+
+  #section-c6yJgt9wX .button,
+  #section-c6yJgt9wX button {
+    padding: 12px 20px !important;
+    font-size: 16px !important;
+    margin-top: 4px !important;
   }
 }
 
@@ -746,4 +882,31 @@ textarea,
   -webkit-text-fill-color: currentColor !important;
   text-shadow: none !important;
   filter: none !important;
+}
+/* Premium Dual-Tone Golden CTA Button Style */
+.c-button > button[id$="__btn"],
+[class*="button-"] > button {
+  background: linear-gradient(180deg, rgba(255, 215, 0, 1) 0%, rgba(200, 150, 0, 1) 100%) !important;
+  box-shadow: 
+    inset 0 1px 1px rgba(255, 255, 255, 0.6), /* Inner top highlight (glassmorphic glass edge) */
+    inset 0 -2px 4px rgba(0, 0, 0, 0.3), /* Inner bottom shadow to give depth */
+    0 8px 16px rgba(0, 0, 0, 0.4), /* Drop shadow */
+    0 0 15px rgba(255, 215, 0, 0.3) !important; /* Golden outer glow */
+  border: 1px solid rgba(184, 134, 11, 0.8) !important;
+  color: #111 !important;
+  font-weight: 800 !important;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.4) !important;
+  border-radius: 100px !important; /* Premium pill shape */
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+}
+
+.c-button > button[id$="__btn"]:hover,
+[class*="button-"] > button:hover {
+  background: linear-gradient(180deg, rgba(255, 225, 50, 1) 0%, rgba(220, 160, 0, 1) 100%) !important;
+  box-shadow: 
+    inset 0 1px 1px rgba(255, 255, 255, 0.8),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.3),
+    0 10px 20px rgba(0, 0, 0, 0.5), 
+    0 0 25px rgba(255, 225, 50, 0.5) !important;
+  transform: translateY(-2px);
 }

@@ -122,6 +122,16 @@ function App() {
             node.textContent = "";
           });
 
+        // Remove now-empty wrappers from the cloned row to prevent large blank gaps.
+        videoTemplateRow
+          .querySelectorAll(".c-heading, .c-sub-heading, .c-paragraph")
+          .forEach((block) => {
+            const text = (block.textContent || "").replace(/\u00a0/g, " ").trim();
+            if (!text) {
+              block.remove();
+            }
+          });
+
         // The cloned template includes star-rating image blocks we don't want
         // in screenshot testimonials.
         videoTemplateRow.querySelectorAll(".c-image").forEach((imageBlock) => {
@@ -240,6 +250,28 @@ function App() {
     const root = document.getElementById("pixel-root");
     if (!root) return undefined;
 
+    const isStickyBottomBarButton = (button) =>
+      Boolean(button.closest("#section-5oa_veNL0R"));
+
+    const resetSyncedButtonSize = (button) => {
+      [
+        "width",
+        "min-width",
+        "max-width",
+        "height",
+        "min-height",
+        "max-height",
+        "padding",
+        "font-size",
+        "line-height",
+        "display",
+        "align-items",
+        "justify-content",
+      ].forEach((property) => {
+        button.style.removeProperty(property);
+      });
+    };
+
     const matchesApplyCta = (button) => {
       if (!(button instanceof HTMLButtonElement)) return false;
 
@@ -284,6 +316,12 @@ function App() {
 
       applyButtons.forEach((button) => {
         if (button === sourceButton) return;
+
+        if (isStickyBottomBarButton(button)) {
+          // Keep the sticky bar CTA on its original responsive sizing.
+          resetSyncedButtonSize(button);
+          return;
+        }
 
         button.style.setProperty("width", width, "important");
         button.style.setProperty("min-width", width, "important");

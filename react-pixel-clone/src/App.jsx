@@ -14,19 +14,20 @@ const TESTIMONIAL_WISTIA_EMBED_URL =
   "https://fast.wistia.net/embed/iframe/68l35pjer0?seo=true&videoFoam=true";
 
 function getTimeLeft() {
-  const now = new Date();
-  const anchor = new Date(2025, 0, 1);
-  const dayMs = 24 * 60 * 60 * 1000;
-  const cycleMs = 5 * dayMs;
-  const elapsed = now - anchor;
+  const secondMs = 1000;
+  const minuteMs = 60 * secondMs;
+  const hourMs = 60 * minuteMs;
+  const cycleMs = 24 * hourMs;
+  const anchorMs = Date.UTC(2025, 0, 1, 0, 0, 0);
+  const elapsed = Date.now() - anchorMs;
   const cycleProgress = ((elapsed % cycleMs) + cycleMs) % cycleMs;
   const left = cycleMs - cycleProgress;
+  const safeLeft = left === cycleMs ? cycleMs - secondMs : left;
 
   return {
-    days: Math.floor(left / dayMs),
-    hours: Math.floor((left % dayMs) / (1000 * 60 * 60)),
-    minutes: Math.floor((left % (1000 * 60 * 60)) / (1000 * 60)),
-    seconds: Math.floor((left % (1000 * 60)) / 1000),
+    hours: Math.floor(safeLeft / hourMs),
+    minutes: Math.floor((safeLeft % hourMs) / minuteMs),
+    seconds: Math.floor((safeLeft % minuteMs) / secondMs),
   };
 }
 
@@ -154,6 +155,21 @@ function App() {
       `;
     }
 
+    const onboardingLockPattern = /🔒\s*Onboarding Closes In:/i;
+    doc.querySelectorAll("strong, p").forEach((node) => {
+      const text = node.textContent || "";
+      if (onboardingLockPattern.test(text)) {
+        node.textContent = text.replace(/🔒\s*/g, "").trim();
+      }
+    });
+
+    doc.querySelectorAll(".countdown-section").forEach((section) => {
+      const dayUnit = section.querySelector(".cd-days")?.closest(".timer-unit");
+      if (dayUnit) {
+        dayUnit.remove();
+      }
+    });
+
     return doc.body.innerHTML || replicaMarkup;
   }, []);
 
@@ -161,11 +177,9 @@ function App() {
     const updateCountdown = () => {
       const time = getTimeLeft();
       document.querySelectorAll(".countdown-section").forEach((section) => {
-        const d = section.querySelector(".cd-days");
         const h = section.querySelector(".cd-hours");
         const m = section.querySelector(".cd-minutes");
         const s = section.querySelector(".cd-seconds");
-        if (d) d.textContent = String(time.days).padStart(2, "0");
         if (h) h.textContent = String(time.hours).padStart(2, "0");
         if (m) m.textContent = String(time.minutes).padStart(2, "0");
         if (s) s.textContent = String(time.seconds).padStart(2, "0");

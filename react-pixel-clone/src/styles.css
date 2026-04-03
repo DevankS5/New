@@ -64,16 +64,24 @@ body {
   box-shadow: none !important;
 }
 
+/* Remove the placeholder email row from the hero area to tighten vertical space. */
+#row-P4d_XDp6Q7 {
+  display: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
 /* "For Serious Coaches" Pill Styling */
 #row-Ai-RlX1m9T {
   text-align: center !important;
+  margin: 6px auto !important;
 }
 
 #row-Ai-RlX1m9T h2 {
   font-size: 11px !important;
   letter-spacing: 1.2px !important;
-  margin: 0 auto 12px !important;
-  padding: 6px 14px !important;
+  margin: 0 auto 2px !important;
+  padding: 4px 14px !important;
   background: rgba(255, 193, 7, 0.08) !important;
   border: 1px solid rgba(255, 193, 7, 0.25) !important;
   border-radius: 100px !important;

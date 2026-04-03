@@ -1107,8 +1107,50 @@ body {
    ================================================================ */
 @media screen and (max-width: 768px) {
   [class*="section-"]:not(#section-c6yJgt9wX):not(#section-5oa_veNL0R) {
-    padding-top: 20px !important;
-    padding-bottom: 20px !important;
+    padding-top: 14px !important;
+    padding-bottom: 14px !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  /* Tighten the transition from feature cards/CTA into "Is This For You?" on mobile. */
+  #section-niAZuVENca {
+    padding-top: 16px !important;
+    padding-bottom: 8px !important;
+  }
+
+  #section-niAZuVENca #row-44jvZRfpL86,
+  #section-niAZuVENca #row-CP0blDrCPN {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding-top: 6px !important;
+    padding-bottom: 4px !important;
+  }
+
+  #section-niAZuVENca #button-Y7j99Gd2Zo,
+  #section-niAZuVENca #paragraph-8hxCSU_EPb {
+    margin-top: 6px !important;
+    margin-bottom: 4px !important;
+  }
+
+  #section-OCXfQXD_KA {
+    padding-top: 10px !important;
+    padding-bottom: 12px !important;
+  }
+
+  #section-OCXfQXD_KA #row-uR4WXfJHPf,
+  #section-OCXfQXD_KA #row-8DFTx3qUPM {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+  }
+
+  #section-OCXfQXD_KA #heading-6Loj58Y6As,
+  #section-OCXfQXD_KA #heading-SQJlkhMt9J,
+  #section-OCXfQXD_KA #heading-zCVj4_zobE {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
   }
 }
 

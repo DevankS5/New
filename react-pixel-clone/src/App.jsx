@@ -10,19 +10,33 @@ import {
 const HERO_WISTIA_EMBED_URL =
   "https://fast.wistia.net/embed/iframe/68l35pjer0?seo=true&videoFoam=true";
 const APPLY_CTA_PATTERN = /apply to work with us|apply today/i;
-const TESTIMONIAL_WISTIA_EMBED_URL =
-  "https://fast.wistia.net/embed/iframe/68l35pjer0?seo=true&videoFoam=true";
+const TESTIMONIAL_IMAGE_PATHS = [
+  "/assets/images/testimonial_1.jpg",
+  "/assets/images/testimonial_4.jpg",
+];
 
 function getTimeLeft() {
   const secondMs = 1000;
   const minuteMs = 60 * secondMs;
   const hourMs = 60 * minuteMs;
-  const cycleMs = 24 * hourMs;
-  const anchorMs = Date.UTC(2025, 0, 1, 0, 0, 0);
-  const elapsed = Date.now() - anchorMs;
-  const cycleProgress = ((elapsed % cycleMs) + cycleMs) % cycleMs;
-  const left = cycleMs - cycleProgress;
-  const safeLeft = left === cycleMs ? cycleMs - secondMs : left;
+  const now = new Date();
+
+  // Keep a visible zero state at the local 12:00 AM boundary.
+  if (
+    now.getHours() === 0 &&
+    now.getMinutes() === 0 &&
+    now.getSeconds() === 0
+  ) {
+    return {
+      hours: 0,
+      minutes: 0,
+      seconds: 0,
+    };
+  }
+
+  const nextMidnight = new Date(now);
+  nextMidnight.setHours(24, 0, 0, 0);
+  const safeLeft = Math.max(0, nextMidnight.getTime() - now.getTime());
 
   return {
     hours: Math.floor(safeLeft / hourMs),
@@ -98,27 +112,31 @@ function App() {
       imageRows.slice(1).forEach((row) => row.remove());
 
       if (videoTemplateRow) {
-        videoTemplateRow.id = "row-custom-wistia-testimonials";
+        videoTemplateRow.id = "row-custom-image-testimonials";
 
         videoTemplateRow
           .querySelectorAll(
-            ".c-heading h1, .c-heading h2, .c-heading h3, .c-paragraph p",
+            ".c-heading h1, .c-heading h2, .c-heading h3, .c-sub-heading h1, .c-sub-heading h2, .c-sub-heading h3, .c-sub-heading p, .c-paragraph p",
           )
           .forEach((node) => {
             node.textContent = "";
           });
 
+        // The cloned template includes star-rating image blocks we don't want
+        // in screenshot testimonials.
+        videoTemplateRow.querySelectorAll(".c-image").forEach((imageBlock) => {
+          imageBlock.remove();
+        });
+
         const videoCards = Array.from(videoTemplateRow.querySelectorAll(".c-video"));
         videoCards.slice(0, 2).forEach((videoCard, index) => {
           videoCard.innerHTML = `
-            <div class="testimonial-wistia-embed">
-              <iframe
-                src="${TESTIMONIAL_WISTIA_EMBED_URL}"
-                title="Testimonial Video ${index + 1}"
-                allow="autoplay; fullscreen; picture-in-picture"
-                allowfullscreen
+            <div class="testimonial-proof-embed">
+              <img
+                src="${TESTIMONIAL_IMAGE_PATHS[index]}"
+                alt="Client testimonial chat screenshot ${index + 1}"
                 loading="lazy"
-              ></iframe>
+              />
             </div>
           `;
         });
@@ -216,6 +234,85 @@ function App() {
 
     root.addEventListener("click", onApplyClick, true);
     return () => root.removeEventListener("click", onApplyClick, true);
+  }, [cleanedMarkup]);
+
+  useEffect(() => {
+    const root = document.getElementById("pixel-root");
+    if (!root) return undefined;
+
+    const matchesApplyCta = (button) => {
+      if (!(button instanceof HTMLButtonElement)) return false;
+
+      const label = `${button.getAttribute("aria-label") || ""} ${
+        button.textContent || ""
+      }`;
+
+      return APPLY_CTA_PATTERN.test(label);
+    };
+
+    const isMeasurable = (button) => {
+      const rect = button.getBoundingClientRect();
+      return rect.width > 0 && rect.height > 0;
+    };
+
+    const getApplyButtons = () =>
+      Array.from(root.querySelectorAll('button[id$="_btn"]')).filter(matchesApplyCta);
+
+    const getHeroSourceButton = () => {
+      const heroButtons = Array.from(
+        root.querySelectorAll('#section-c6yJgt9wX button[id$="_btn"]'),
+      ).filter(matchesApplyCta);
+
+      return heroButtons.find(isMeasurable) || heroButtons[0] || null;
+    };
+
+    const syncApplyCtaSize = () => {
+      const applyButtons = getApplyButtons();
+      if (applyButtons.length === 0) return;
+
+      const sourceButton =
+        getHeroSourceButton() || applyButtons.find(isMeasurable) || applyButtons[0];
+      if (!sourceButton) return;
+
+      const sourceRect = sourceButton.getBoundingClientRect();
+
+      if (sourceRect.width === 0 || sourceRect.height === 0) return;
+
+      const sourceComputedStyle = window.getComputedStyle(sourceButton);
+      const width = `${Math.round(sourceRect.width)}px`;
+      const height = `${Math.round(sourceRect.height)}px`;
+
+      applyButtons.forEach((button) => {
+        if (button === sourceButton) return;
+
+        button.style.setProperty("width", width, "important");
+        button.style.setProperty("min-width", width, "important");
+        button.style.setProperty("max-width", width, "important");
+        button.style.setProperty("height", height, "important");
+        button.style.setProperty("min-height", height, "important");
+        button.style.setProperty("max-height", height, "important");
+        button.style.setProperty("padding", sourceComputedStyle.padding, "important");
+        button.style.setProperty("font-size", sourceComputedStyle.fontSize, "important");
+        button.style.setProperty("line-height", sourceComputedStyle.lineHeight, "important");
+        button.style.setProperty("display", "inline-flex", "important");
+        button.style.setProperty("align-items", "center", "important");
+        button.style.setProperty("justify-content", "center", "important");
+      });
+    };
+
+    syncApplyCtaSize();
+
+    const rafId = window.requestAnimationFrame(syncApplyCtaSize);
+    const timeoutId = window.setTimeout(syncApplyCtaSize, 250);
+    const lateTimeoutId = window.setTimeout(syncApplyCtaSize, 1000);
+    window.addEventListener("resize", syncApplyCtaSize);
+
+    return () => {
+      window.cancelAnimationFrame(rafId);
+      window.clearTimeout(timeoutId);
+      window.clearTimeout(lateTimeoutId);
+      window.removeEventListener("resize", syncApplyCtaSize);
+    };
   }, [cleanedMarkup]);
 
   useEffect(() => {

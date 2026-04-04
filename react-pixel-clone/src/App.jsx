@@ -383,6 +383,19 @@ function App() {
   const activeQuestionPageIndex = qualifierScreenIndex - 1;
   const activeQuestionPage = questionPages[activeQuestionPageIndex] ?? null;
   const qualifierProgress = getQualifierProgress(qualifierScreenIndex, QUALIFIER_FLOW_CONFIG);
+  const displayedProgress = Math.round(
+    Math.max(
+      0,
+      Math.min(
+        100,
+        typeof activeQuestionPage?.progressValue === "number"
+          ? activeQuestionPage.progressValue
+          : qualifierProgress,
+      ),
+    ),
+  );
+  const shouldShowProgressMeta = Boolean(activeQuestionPage?.showProgressMeta);
+  const progressMetaLabel = activeQuestionPage?.progressLabel || "Progress";
   const isFirstScreenSubmissionPending =
     isSubmittingFirstScreen && activeQuestionPageIndex === 0;
 
@@ -523,11 +536,16 @@ function App() {
     );
 
     if (field.type === "radio") {
+      const isScaleVariant = field.variant === "scale";
+      const radioGridClassName = `qualifier-radio-grid${
+        isScaleVariant ? " qualifier-radio-grid--scale" : ""
+      }`;
+
       return (
         <fieldset className={`${fieldClassName} qualifier-fieldset`} key={field.name}>
           <legend>{labelText}</legend>
 
-          <div className="qualifier-radio-grid">
+          <div className={radioGridClassName}>
             {(field.options || []).map((option) => {
               const normalizedOptionValue = String(option.value || "")
                 .toLowerCase()
@@ -535,7 +553,11 @@ function App() {
                 .replace(/^-+|-+$/g, "");
               const optionId = `${fieldId}-${normalizedOptionValue || "option"}`;
               const isSelected = (qualifierForm[field.name] ?? "") === option.value;
-              const optionClassName = `qualifier-radio-option${isSelected ? " is-selected" : ""}${option.fullWidth ? " qualifier-option--full" : ""}`;
+              const optionClassName = `qualifier-radio-option${
+                isScaleVariant ? " qualifier-radio-option--scale" : ""
+              }${isSelected ? " is-selected" : ""}${
+                option.fullWidth ? " qualifier-option--full" : ""
+              }`;
 
               return (
                 <label
@@ -677,10 +699,17 @@ function App() {
 
             <p className="qualifier-eyebrow">{QUALIFIER_FLOW_CONFIG.eyebrowLabel}</p>
 
+            {activeQuestionPage && shouldShowProgressMeta ? (
+              <div className="qualifier-progress-meta" aria-hidden="true">
+                <span>{progressMetaLabel}</span>
+                <span>{displayedProgress}%</span>
+              </div>
+            ) : null}
+
             <div className="qualifier-progress-shell" aria-hidden="true">
               <div
                 className="qualifier-progress-fill"
-                style={{ width: `${qualifierProgress}%` }}
+                style={{ width: `${displayedProgress}%` }}
               />
             </div>
 
@@ -701,8 +730,26 @@ function App() {
 
             {activeQuestionPage ? (
               <div className="qualifier-step">
-                <h2 id="qualifier-title">{activeQuestionPage.title}</h2>
+                <div className="qualifier-heading-row">
+                  <h2 id="qualifier-title">{activeQuestionPage.title}</h2>
+                  {activeQuestionPage.titleBadge ? (
+                    <span className="qualifier-title-badge">{activeQuestionPage.titleBadge}</span>
+                  ) : null}
+                </div>
                 <p className="qualifier-copy">{activeQuestionPage.copy}</p>
+
+                {activeQuestionPage.messagePanel ? (
+                  <div className="qualifier-message-panel">
+                    {(activeQuestionPage.messagePanel.lines || []).map((line) => (
+                      <p key={line}>{line}</p>
+                    ))}
+                    {activeQuestionPage.messagePanel.emphasis ? (
+                      <p className="qualifier-message-panel-emphasis">
+                        {activeQuestionPage.messagePanel.emphasis}
+                      </p>
+                    ) : null}
+                  </div>
+                ) : null}
 
                 <form className="qualifier-form" onSubmit={handleQualifierPageSubmit}>
                   <div className="qualifier-field-grid">

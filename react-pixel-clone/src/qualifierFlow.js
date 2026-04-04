@@ -254,7 +254,7 @@ export const QUALIFIER_FLOW_CONFIG = {
       title: "Before We Begin",
       copy:
         "This ensures we are aligned on expectations, compliance requirements, and key details before execution starts.",
-      submitLabel: "Submit Application",
+      submitLabel: "Next",
       fields: [
         {
           name: "workExpectations",
@@ -277,6 +277,86 @@ export const QUALIFIER_FLOW_CONFIG = {
           type: "textarea",
           placeholder: "Optional",
           fullWidth: true,
+        },
+      ],
+    },
+    {
+      id: "getting-to-know-you",
+      title: "Getting to Know You",
+      titleBadge: "Optional but appreciated",
+      copy:
+        "A few light questions to understand you beyond the business. Strong partnerships are built on understanding, not just strategy.",
+      submitLabel: "Next",
+      fields: [
+        {
+          name: "businessOriginStory",
+          label: "How did you start this business?",
+          type: "textarea",
+          placeholder: "Your origin story",
+          fullWidth: true,
+        },
+        {
+          name: "favoriteHobby",
+          label: "Favorite hobby",
+          type: "text",
+          placeholder: "Optional",
+          fullWidth: true,
+        },
+        {
+          name: "birthday",
+          label: "Your birthday",
+          type: "text",
+          placeholder: "dd-mm-yyyy",
+        },
+        {
+          name: "companyAnniversaryDate",
+          label: "Company anniversary date",
+          type: "text",
+          placeholder: "dd-mm-yyyy",
+        },
+        {
+          name: "vacationPreference",
+          label: "What do you prefer for a vacation?",
+          type: "radio",
+          fullWidth: true,
+          options: [
+            { value: "Mountains", label: "Mountains" },
+            { value: "Beaches", label: "Beaches" },
+          ],
+        },
+      ],
+    },
+    {
+      id: "almost-there",
+      title: "Almost There!",
+      copy:
+        "Thank you for taking the time to complete this onboarding. Your clarity helps us build a strategy that is aligned with your goals from day one.",
+      showProgressMeta: true,
+      progressLabel: "Progress",
+      progressValue: 100,
+      messagePanel: {
+        lines: [
+          "We are fully committed to executing with precision, transparency, and performance in mind.",
+          "Our focus is simple - build systems that generate measurable and sustainable growth for your business.",
+        ],
+        emphasis: "Let's build something powerful.",
+      },
+      submitLabel: "Submit Application",
+      fields: [
+        {
+          name: "growthExcitementScore",
+          label: "On a scale of 1-5, how excited are you to grow this year?",
+          type: "radio",
+          variant: "scale",
+          required: true,
+          fullWidth: true,
+          options: [
+            { value: "1", label: "1" },
+            { value: "2", label: "2" },
+            { value: "3", label: "3" },
+            { value: "4", label: "4" },
+            { value: "5", label: "5" },
+          ],
         },
       ],
     },

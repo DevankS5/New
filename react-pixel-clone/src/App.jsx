@@ -391,6 +391,31 @@ function App() {
     setQualifierForm((prev) => ({ ...prev, [name]: type === "checkbox" ? checked : value }));
   };
 
+  const handleQualifierOptionToggle = (fieldName, optionValue) => {
+    setQualifierForm((prev) => {
+      const currentValues = Array.isArray(prev[fieldName]) ? prev[fieldName] : [];
+      const isSelected = currentValues.includes(optionValue);
+      const nextValues = isSelected
+        ? currentValues.filter((value) => value !== optionValue)
+        : [...currentValues, optionValue];
+
+      return {
+        ...prev,
+        [fieldName]: nextValues,
+      };
+    });
+  };
+
+  const isQualifierFieldMissing = (field, value) => {
+    if (!field.required) return false;
+
+    if (field.type === "checkbox-group") {
+      return !Array.isArray(value) || value.length === 0;
+    }
+
+    return String(value ?? "").trim() === "";
+  };
+
   const closeQualifier = () => {
     setIsQualifierOpen(false);
   };
@@ -449,9 +474,8 @@ function App() {
     if (!activeQuestionPage || isSubmittingFirstScreen) return;
 
     const hasMissingRequiredField = activeQuestionPage.fields.some((field) => {
-      if (!field.required) return false;
       const value = qualifierForm[field.name];
-      return String(value ?? "").trim() === "";
+      return isQualifierFieldMissing(field, value);
     });
 
     if (hasMissingRequiredField) {
@@ -511,10 +535,11 @@ function App() {
                 .replace(/^-+|-+$/g, "");
               const optionId = `${fieldId}-${normalizedOptionValue || "option"}`;
               const isSelected = (qualifierForm[field.name] ?? "") === option.value;
+              const optionClassName = `qualifier-radio-option${isSelected ? " is-selected" : ""}${option.fullWidth ? " qualifier-option--full" : ""}`;
 
               return (
                 <label
-                  className={`qualifier-radio-option${isSelected ? " is-selected" : ""}`}
+                  className={optionClassName}
                   htmlFor={optionId}
                   key={`${field.name}-${option.value}`}
                 >
@@ -525,6 +550,48 @@ function App() {
                     value={option.value}
                     checked={isSelected}
                     onChange={handleQualifierInput}
+                  />
+                  <span>{option.label}</span>
+                </label>
+              );
+            })}
+          </div>
+        </fieldset>
+      );
+    }
+
+    if (field.type === "checkbox-group") {
+      const selectedValues = Array.isArray(qualifierForm[field.name])
+        ? qualifierForm[field.name]
+        : [];
+
+      return (
+        <fieldset className={`${fieldClassName} qualifier-fieldset`} key={field.name}>
+          <legend>{labelText}</legend>
+
+          <div className="qualifier-checkbox-grid">
+            {(field.options || []).map((option) => {
+              const normalizedOptionValue = String(option.value || "")
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, "-")
+                .replace(/^-+|-+$/g, "");
+              const optionId = `${fieldId}-${normalizedOptionValue || "option"}`;
+              const isSelected = selectedValues.includes(option.value);
+              const optionClassName = `qualifier-checkbox-option${isSelected ? " is-selected" : ""}${option.fullWidth ? " qualifier-option--full" : ""}`;
+
+              return (
+                <label
+                  className={optionClassName}
+                  htmlFor={optionId}
+                  key={`${field.name}-${option.value}`}
+                >
+                  <input
+                    id={optionId}
+                    type="checkbox"
+                    name={field.name}
+                    value={option.value}
+                    checked={isSelected}
+                    onChange={() => handleQualifierOptionToggle(field.name, option.value)}
                   />
                   <span>{option.label}</span>
                 </label>

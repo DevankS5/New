@@ -132,6 +132,154 @@ export const QUALIFIER_FLOW_CONFIG = {
         },
       ],
     },
+    {
+      id: "market-pricing-challenges",
+      title: "Market, Pricing & Challenges",
+      copy:
+        "This section captures your audience, current bottlenecks and growth constraints so strategy can be calibrated to real-world conditions.",
+      submitLabel: "Next",
+      fields: [
+        {
+          name: "offerPriceRange",
+          label: "What is the price range your offer operates",
+          type: "radio",
+          required: true,
+          fullWidth: true,
+          options: [
+            { value: "₹0 - ₹1000", label: "₹0 - ₹1000" },
+            { value: "₹1000 - ₹25,000", label: "₹1000 - ₹25,000" },
+            { value: "₹25,000 - ₹50,000", label: "₹25,000 - ₹50,000" },
+            { value: "₹50,000 - ₹1,00,000", label: "₹50,000 - ₹1,00,000" },
+            { value: "₹1,00,000 +", label: "₹1,00,000 +", fullWidth: true },
+          ],
+        },
+        {
+          name: "idealCustomerProfile",
+          label: "What is your ideal customer profile?",
+          type: "textarea",
+          placeholder: "Example: age, location, profession, pain points",
+          required: true,
+          fullWidth: true,
+        },
+        {
+          name: "businessChallenges",
+          label: "What challenges are you currently facing in your business?",
+          type: "checkbox-group",
+          required: true,
+          fullWidth: true,
+          options: [
+            { value: "Not getting enough leads", label: "Not getting enough leads" },
+            {
+              value: "Getting leads but low conversion rate",
+              label: "Getting leads but low conversion rate",
+            },
+            {
+              value: "Inconsistent sales / revenue fluctuations",
+              label: "Inconsistent sales / revenue fluctuations",
+            },
+            { value: "Poor social media engagement", label: "Poor social media engagement" },
+            { value: "No clear marketing strategy", label: "No clear marketing strategy" },
+            { value: "High ad spend but low ROI", label: "High ad spend but low ROI" },
+            {
+              value: "No proper automation systems",
+              label: "No proper automation systems",
+            },
+            {
+              value: "No follow-up system for leads",
+              label: "No follow-up system for leads",
+            },
+            {
+              value: "Poor website performance / low conversions",
+              label: "Poor website performance / low conversions",
+            },
+            {
+              value: "Scaling issues (operations breaking at growth stage)",
+              label: "Scaling issues (operations breaking at growth stage)",
+            },
+            {
+              value: "Lack of clarity on positioning",
+              label: "Lack of clarity on positioning",
+            },
+            {
+              value: "No data tracking / analytics setup",
+              label: "No data tracking / analytics setup",
+            },
+            {
+              value: "Difficulty retaining customers (High Churn Rate)",
+              label: "Difficulty retaining customers (High Churn Rate)",
+            },
+            { value: "Other", label: "Other", fullWidth: true },
+          ],
+        },
+        {
+          name: "runningAdsStatus",
+          label: "Do you currently run ads?",
+          type: "radio",
+          required: true,
+          fullWidth: true,
+          options: [
+            { value: "Yes", label: "Yes" },
+            { value: "No, but have tried in the past", label: "No, but have tried in the past" },
+            { value: "Never tried running ads", label: "Never tried running ads", fullWidth: true },
+          ],
+        },
+        {
+          name: "existingSetups",
+          label: "Which of these do you have already setup?",
+          type: "checkbox-group",
+          fullWidth: true,
+          options: [
+            { value: "Website/Domain", label: "Website/Domain" },
+            {
+              value: "Facebook Page (with content)",
+              label: "Facebook Page (with content)",
+            },
+            {
+              value: "Instagram connected to Meta",
+              label: "Instagram connected to Meta",
+            },
+            { value: "Meta Business Manager", label: "Meta Business Manager" },
+            { value: "RazorPay for Payments", label: "RazorPay for Payments" },
+            {
+              value: "Active posting on social media pages",
+              label: "Active posting on social media pages",
+              fullWidth: true,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: "before-we-begin",
+      title: "Before We Begin",
+      copy:
+        "This ensures we are aligned on expectations, compliance requirements, and key details before execution starts.",
+      submitLabel: "Submit Application",
+      fields: [
+        {
+          name: "workExpectations",
+          label: "What are your expectations working with us?",
+          type: "textarea",
+          placeholder: "Share your ideal working style, outcomes and priorities...",
+          required: true,
+          fullWidth: true,
+        },
+        {
+          name: "legalOrComplianceRequirements",
+          label: "Any legal restrictions or compliance requirements in your industry? (Optional)",
+          type: "textarea",
+          placeholder: "Optional",
+          fullWidth: true,
+        },
+        {
+          name: "additionalContext",
+          label: "Is there anything else we should know to serve you better? (Optional)",
+          type: "textarea",
+          placeholder: "Optional",
+          fullWidth: true,
+        },
+      ],
+    },
   ],
   success: {
     title: "You're In",
@@ -144,7 +292,17 @@ export const QUALIFIER_FLOW_CONFIG = {
 export function createInitialQualifierFormState(config = QUALIFIER_FLOW_CONFIG) {
   const allFields = config.pages.flatMap((page) => page.fields);
   return allFields.reduce((formState, field) => {
-    formState[field.name] = field.defaultValue ?? "";
+    if (field.defaultValue !== undefined) {
+      formState[field.name] = field.defaultValue;
+      return formState;
+    }
+
+    if (field.type === "checkbox-group") {
+      formState[field.name] = [];
+      return formState;
+    }
+
+    formState[field.name] = "";
     return formState;
   }, {});
 }

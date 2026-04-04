@@ -106,6 +106,7 @@ Use these in each field object:
 - `select`
 - `radio`
 - `textarea`
+- `checkbox-group` (multi-select)
 
 Optional properties:
 

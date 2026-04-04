@@ -55,7 +55,7 @@ Cal.com embed environment variables:
 
 - `VITE_CAL_LINK` (required for live booking)
   - Example: `username/strategy-call`
-- `VITE_CAL_NAMESPACE` (optional, defaults to `teachloop-strategy-call`)
+- `VITE_CAL_NAMESPACE` (optional, defaults to `orygin-strategy-call`)
 - `VITE_CAL_ORIGIN` (optional, only needed for self-hosted Cal domains)
 - `CAL_API_KEY` (optional, server-side only for future private API integrations)
 

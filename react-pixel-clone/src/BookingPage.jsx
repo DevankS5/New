@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import "./booking.css";
 
 const BOOKING_PREFILL_STORAGE_KEY = "qualifierBookingPrefill";
-const DEFAULT_CAL_NAMESPACE = "teachloop-strategy-call";
+const DEFAULT_CAL_NAMESPACE = "orygin-strategy-call";
 
 function normalizeCalEmbedInput(rawCalLink, rawCalOrigin) {
   const cleanedCalLink = String(rawCalLink ?? "").trim();
@@ -139,7 +139,7 @@ function BookingPage() {
       layout: isCompactViewport ? "column_view" : "month_view",
       useSlotsViewOnSmallScreen: true,
       "cal.embed.pageType": "user.event.booking.slots",
-      notes: "Lead from TeachLoop qualification flow",
+      notes: "Lead from ORYGIN.AI qualification flow",
     };
 
     if (prefill.fullName) {
@@ -164,10 +164,10 @@ function BookingPage() {
         </div>
 
         <header className="booking-page__header">
-          <h1>You&apos;re One Step Away. Book Your Free Strategy Call Now.</h1>
+          <h1>You&apos;re One Step Away. Book Your ORYGIN.AI Strategy Call Now.</h1>
           <p>
-            In 30 minutes, we&apos;ll map out exactly how to get you qualified calls each month and
-            tell you honestly if we&apos;re the right fit.
+            In 30 minutes, the ORYGIN.AI team will map out exactly how to get you qualified
+            calls each month and tell you honestly if we&apos;re the right fit.
           </p>
         </header>
 
@@ -180,11 +180,13 @@ function BookingPage() {
         <section className="booking-scheduler-card">
           <aside className="booking-scheduler-info">
             <div className="booking-brand-mark" aria-hidden="true">
-              TL
+              OR
             </div>
-            <h2>Book TeachLoop AI Strategy Call</h2>
+            <h2>Book ORYGIN.AI Strategy Call</h2>
             <p className="booking-scheduler-info__meta">45 mins</p>
-            <p className="booking-scheduler-info__meta">One-to-one with our growth strategist</p>
+            <p className="booking-scheduler-info__meta">
+              One-to-one with an ORYGIN.AI growth strategist
+            </p>
             <p className="booking-scheduler-info__copy">
               We will audit your positioning, identify revenue leaks, and give you a practical
               roadmap you can execute immediately.

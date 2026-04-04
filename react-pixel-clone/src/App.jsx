@@ -58,7 +58,7 @@ function App() {
   const cleanedMarkup = useMemo(() => {
     const doc = new DOMParser().parseFromString(replicaMarkup, "text/html");
     const founderKeywords =
-      /MEET THE FOUNDER & CEO|Hey, I'm Vinay Jain!|Built By Someone Who's Actually Done It/i;
+      /MEET THE FOUNDER(?:\s*&\s*CEO)?|Hey,\s*I'm\s*[^!]{1,60}!|Built By Someone Who's Actually Done It/i;
     const testimonialHeadingPattern = /What Our Clients Are Saying/i;
 
     const founderSections = Array.from(
@@ -178,7 +178,7 @@ function App() {
         <div class="hero-wistia-embed">
           <iframe
             src="${HERO_WISTIA_EMBED_URL}"
-            title="TeachLoop Hero Video"
+            title="Orygin Hero Video"
             allow="autoplay; fullscreen; picture-in-picture"
             allowfullscreen
             loading="lazy"

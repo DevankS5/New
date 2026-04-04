@@ -50,6 +50,7 @@ function App() {
   const [qualifierScreenIndex, setQualifierScreenIndex] = useState(0);
   const [qualifierError, setQualifierError] = useState("");
   const [qualifierForm, setQualifierForm] = useState(() => createInitialQualifierFormState());
+  const [isSubmittingFirstScreen, setIsSubmittingFirstScreen] = useState(false);
 
   const cleanedMarkup = useMemo(() => {
     const doc = new DOMParser().parseFromString(replicaMarkup, "text/html");
@@ -238,6 +239,7 @@ function App() {
       event.stopPropagation();
       setQualifierForm(createInitialQualifierFormState());
       setQualifierError("");
+      setIsSubmittingFirstScreen(false);
       setQualifierScreenIndex(0);
       setIsQualifierOpen(true);
     };
@@ -381,6 +383,8 @@ function App() {
   const activeQuestionPageIndex = qualifierScreenIndex - 1;
   const activeQuestionPage = questionPages[activeQuestionPageIndex] ?? null;
   const qualifierProgress = getQualifierProgress(qualifierScreenIndex, QUALIFIER_FLOW_CONFIG);
+  const isFirstScreenSubmissionPending =
+    isSubmittingFirstScreen && activeQuestionPageIndex === 0;
 
   const handleQualifierInput = (event) => {
     const { name, value, type, checked } = event.target;
@@ -402,13 +406,47 @@ function App() {
   };
 
   const goToPreviousQualifierScreen = () => {
+    if (isSubmittingFirstScreen) return;
     setQualifierError("");
     setQualifierScreenIndex((prev) => Math.max(0, prev - 1));
   };
 
-  const handleQualifierPageSubmit = (event) => {
+  const submitFirstScreenDetails = async () => {
+    const payload = {
+      fullName: String(qualifierForm.fullName ?? "").trim(),
+      emailAddress: String(qualifierForm.email ?? "").trim(),
+      whatsAppNumber: String(qualifierForm.phone ?? "").trim(),
+      designationInCompany: String(qualifierForm.designation ?? "").trim(),
+      comfortableTimeForCommunication: String(qualifierForm.communicationTime ?? "").trim(),
+    };
+
+    const response = await fetch("/api/qualifier/first-screen", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (response.ok) return;
+
+    let message = "Unable to save your details right now. Please try again.";
+
+    try {
+      const responseBody = await response.json();
+      if (responseBody?.error) {
+        message = responseBody.error;
+      }
+    } catch {
+      // Keep fallback error message.
+    }
+
+    throw new Error(message);
+  };
+
+  const handleQualifierPageSubmit = async (event) => {
     event.preventDefault();
-    if (!activeQuestionPage) return;
+    if (!activeQuestionPage || isSubmittingFirstScreen) return;
 
     const hasMissingRequiredField = activeQuestionPage.fields.some((field) => {
       if (!field.required) return false;
@@ -421,8 +459,22 @@ function App() {
       return;
     }
 
+    const isFirstQuestionPage = activeQuestionPageIndex === 0;
     const isLastQuestionPage = activeQuestionPageIndex === questionPages.length - 1;
     setQualifierError("");
+
+    if (isFirstQuestionPage) {
+      setIsSubmittingFirstScreen(true);
+
+      try {
+        await submitFirstScreenDetails();
+      } catch (error) {
+        // Keep the flow non-blocking in development while backend/env is being configured.
+        console.warn("First-screen Mongo save skipped:", error);
+      } finally {
+        setIsSubmittingFirstScreen(false);
+      }
+    }
 
     if (isLastQuestionPage) {
       setQualifierScreenIndex(successScreenIndex);
@@ -435,11 +487,58 @@ function App() {
   const renderQualifierField = (field) => {
     const fieldId = `qualifier-field-${field.name}`;
     const fieldClassName = `qualifier-field${field.fullWidth ? " qualifier-field--full" : ""}`;
+    const labelText = (
+      <span>
+        {field.label}
+        {field.required ? (
+          <span className="qualifier-required-indicator" aria-hidden="true">
+            *
+          </span>
+        ) : null}
+      </span>
+    );
+
+    if (field.type === "radio") {
+      return (
+        <fieldset className={`${fieldClassName} qualifier-fieldset`} key={field.name}>
+          <legend>{labelText}</legend>
+
+          <div className="qualifier-radio-grid">
+            {(field.options || []).map((option) => {
+              const normalizedOptionValue = String(option.value || "")
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, "-")
+                .replace(/^-+|-+$/g, "");
+              const optionId = `${fieldId}-${normalizedOptionValue || "option"}`;
+              const isSelected = (qualifierForm[field.name] ?? "") === option.value;
+
+              return (
+                <label
+                  className={`qualifier-radio-option${isSelected ? " is-selected" : ""}`}
+                  htmlFor={optionId}
+                  key={`${field.name}-${option.value}`}
+                >
+                  <input
+                    id={optionId}
+                    type="radio"
+                    name={field.name}
+                    value={option.value}
+                    checked={isSelected}
+                    onChange={handleQualifierInput}
+                  />
+                  <span>{option.label}</span>
+                </label>
+              );
+            })}
+          </div>
+        </fieldset>
+      );
+    }
 
     if (field.type === "select") {
       return (
         <label className={fieldClassName} key={field.name}>
-          <span>{field.label}</span>
+          {labelText}
           <select
             id={fieldId}
             name={field.name}
@@ -458,7 +557,7 @@ function App() {
 
     return (
       <label className={fieldClassName} key={field.name}>
-        <span>{field.label}</span>
+        {labelText}
         <input
           id={fieldId}
           name={field.name}
@@ -514,8 +613,6 @@ function App() {
                 >
                   {QUALIFIER_FLOW_CONFIG.intro.ctaLabel}
                 </button>
-
-                <div className="qualifier-preview-box" aria-hidden="true" />
               </div>
             ) : null}
 
@@ -535,13 +632,20 @@ function App() {
                     <button
                       type="button"
                       className="qualifier-back-btn"
+                      disabled={isFirstScreenSubmissionPending}
                       onClick={goToPreviousQualifierScreen}
                     >
                       Back
                     </button>
 
-                    <button type="submit" className="qualifier-submit-btn">
-                      {activeQuestionPage.submitLabel || "Continue"}
+                    <button
+                      type="submit"
+                      className="qualifier-submit-btn"
+                      disabled={isFirstScreenSubmissionPending}
+                    >
+                      {isFirstScreenSubmissionPending
+                        ? "Saving..."
+                        : activeQuestionPage.submitLabel || "Continue"}
                     </button>
                   </div>
                 </form>

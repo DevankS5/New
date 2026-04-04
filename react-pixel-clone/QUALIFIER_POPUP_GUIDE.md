@@ -9,10 +9,34 @@ This popup is now configuration-driven so you can add, remove, or reorder questi
   - Edit this file when you want to add or remove popup pages/questions.
 - `src/App.jsx`
   - Generic popup renderer and navigation logic.
-  - Usually no edits needed for normal lead-form updates.
+  - Handles first-page API submission before user continues.
 - `src/styles.css`
   - Shared popup styles.
   - Keep new elements inside existing `.qualifier-*` classes to preserve theme.
+- `server/index.js`
+  - Express + MongoDB API for first-screen lead capture.
+
+## MongoDB Integration (First Question Screen)
+
+When the first question page is submitted, the app sends this payload to:
+
+- `POST /api/qualifier/first-screen`
+
+Saved fields:
+
+- `fullName`
+- `emailAddress`
+- `whatsAppNumber`
+- `designationInCompany`
+- `comfortableTimeForCommunication`
+
+Environment variables used by the API server:
+
+- `MONGODB_URI` (required)
+- `MONGODB_DB` (optional)
+- `PORT` (optional, default `8787`)
+
+Use `.env` in project root (template: `.env.example`).
 
 ## Popup Structure
 
@@ -80,6 +104,7 @@ Use these in each field object:
 - `tel`
 - `number`
 - `select`
+- `radio`
 
 Optional properties:
 

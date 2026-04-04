@@ -362,10 +362,10 @@ export const QUALIFIER_FLOW_CONFIG = {
     },
   ],
   success: {
-    title: "You're In",
+    title: "Application Received",
     copyTemplate:
-      "Thanks, {firstName}. Your application is received. Our team will contact you within 24 hours.",
-    ctaLabel: "Close",
+      "Thanks, {firstName}. Your application is received. Continue below to book your free strategy call.",
+    ctaLabel: "Continue to Booking",
   },
 };
 

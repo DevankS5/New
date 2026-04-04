@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import replicaMarkup from "./replica/replica.html?raw";
 import {
   QUALIFIER_FLOW_CONFIG,
@@ -14,6 +15,7 @@ const TESTIMONIAL_IMAGE_PATHS = [
   "/assets/images/testimonial_1.jpg",
   "/assets/images/testimonial_4.jpg",
 ];
+const BOOKING_PREFILL_STORAGE_KEY = "qualifierBookingPrefill";
 
 function getTimeLeft() {
   const secondMs = 1000;
@@ -46,6 +48,7 @@ function getTimeLeft() {
 }
 
 function App() {
+  const navigate = useNavigate();
   const [isQualifierOpen, setIsQualifierOpen] = useState(false);
   const [qualifierScreenIndex, setQualifierScreenIndex] = useState(0);
   const [qualifierError, setQualifierError] = useState("");
@@ -433,6 +436,25 @@ function App() {
     setIsQualifierOpen(false);
   };
 
+  const continueToBookingPage = () => {
+    const bookingPrefill = {
+      fullName: String(qualifierForm.fullName ?? "").trim(),
+      email: String(qualifierForm.email ?? "").trim(),
+    };
+
+    try {
+      window.sessionStorage.setItem(
+        BOOKING_PREFILL_STORAGE_KEY,
+        JSON.stringify(bookingPrefill),
+      );
+    } catch {
+      // Booking should still work even if storage is unavailable.
+    }
+
+    setIsQualifierOpen(false);
+    navigate("/book-call");
+  };
+
   const startQualifierFlow = () => {
     setQualifierError("");
     if (questionPages.length === 0) {
@@ -514,7 +536,7 @@ function App() {
     }
 
     if (isLastQuestionPage) {
-      setQualifierScreenIndex(successScreenIndex);
+      continueToBookingPage();
       return;
     }
 
@@ -789,7 +811,11 @@ function App() {
                   {getQualifierSuccessCopy(qualifierForm, QUALIFIER_FLOW_CONFIG)}
                 </p>
 
-                <button type="button" className="qualifier-submit-btn" onClick={closeQualifier}>
+                <button
+                  type="button"
+                  className="qualifier-submit-btn"
+                  onClick={continueToBookingPage}
+                >
                   {QUALIFIER_FLOW_CONFIG.success.ctaLabel}
                 </button>
               </div>

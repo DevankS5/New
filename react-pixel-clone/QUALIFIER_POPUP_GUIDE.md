@@ -10,9 +10,16 @@ This popup is now configuration-driven so you can add, remove, or reorder questi
 - `src/App.jsx`
   - Generic popup renderer and navigation logic.
   - Handles first-page API submission before user continues.
+- `src/BookingPage.jsx`
+  - Post-qualifier booking page shown at `/book-call`.
+  - Loads the Cal.com inline scheduler embed.
+- `src/booking.css`
+  - Dedicated styling for the booking page.
 - `src/styles.css`
   - Shared popup styles.
   - Keep new elements inside existing `.qualifier-*` classes to preserve theme.
+- `src/main.jsx`
+  - Route setup for `/` and `/book-call`.
 - `server/index.js`
   - Express + MongoDB API for first-screen lead capture.
 
@@ -37,6 +44,22 @@ Environment variables used by the API server:
 - `PORT` (optional, default `8787`)
 
 Use `.env` in project root (template: `.env.example`).
+
+## Booking Page + Cal.com Embed
+
+After the last qualifier page is submitted, users are routed directly to:
+
+- `/book-call`
+
+Cal.com embed environment variables:
+
+- `VITE_CAL_LINK` (required for live booking)
+  - Example: `username/strategy-call`
+- `VITE_CAL_NAMESPACE` (optional, defaults to `teachloop-strategy-call`)
+- `VITE_CAL_ORIGIN` (optional, only needed for self-hosted Cal domains)
+- `CAL_API_KEY` (optional, server-side only for future private API integrations)
+
+If `VITE_CAL_LINK` is empty, the booking page shows a setup message instead of the live calendar.
 
 ## Popup Structure
 

@@ -1,0 +1,413 @@
+.booking-page {
+  min-height: 100vh;
+  padding: clamp(18px, 4vw, 42px);
+  color: #f7f8fa;
+  background:
+    radial-gradient(circle at 12% 16%, rgba(255, 193, 7, 0.08), transparent 36%),
+    radial-gradient(circle at 88% 82%, rgba(255, 178, 41, 0.09), transparent 34%),
+    radial-gradient(circle at 50% 100%, rgba(255, 170, 0, 0.16), transparent 40%),
+    #0b0b0b;
+}
+
+.booking-page__container {
+  width: min(1200px, 100%);
+  margin: 0 auto;
+}
+
+.booking-progress-head {
+  margin: 2px auto 26px;
+  width: min(980px, 100%);
+}
+
+.booking-progress-head span {
+  display: block;
+  margin-bottom: 8px;
+  text-align: center;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: rgba(244, 246, 250, 0.92);
+}
+
+.booking-progress-track {
+  height: 30px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 198, 73, 0.25);
+  background: rgba(21, 21, 21, 0.88);
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+.booking-progress-fill {
+  width: 78%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #f4be2c 0%, #f7d15f 42%, #e4a30a 100%);
+  box-shadow: 0 0 28px rgba(247, 191, 49, 0.34);
+}
+
+.booking-page__header {
+  max-width: 1040px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.booking-page__header h1 {
+  margin: 0;
+  color: #f9fafb;
+  font-size: clamp(2.1rem, 4.8vw, 4.35rem);
+  line-height: 1.06;
+  letter-spacing: -0.03em;
+  font-weight: 800;
+}
+
+.booking-page__header p {
+  max-width: 920px;
+  margin: 20px auto 0;
+  color: rgba(208, 214, 225, 0.9);
+  font-size: clamp(1.02rem, 2.2vw, 1.8rem);
+  line-height: 1.42;
+}
+
+.booking-benefits {
+  width: min(780px, 100%);
+  margin: 38px auto 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 14px;
+}
+
+.booking-benefits li {
+  position: relative;
+  padding-left: 34px;
+  color: rgba(238, 241, 247, 0.96);
+  font-size: clamp(1rem, 1.8vw, 1.35rem);
+  line-height: 1.45;
+  font-weight: 600;
+}
+
+.booking-benefits li::before {
+  content: "";
+  position: absolute;
+  top: 0.36em;
+  left: 0;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #3ed463, #13a736);
+  box-shadow: 0 0 10px rgba(38, 203, 75, 0.35);
+}
+
+.booking-benefits li::after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 0.66em;
+  width: 7px;
+  height: 3px;
+  border: 2px solid #041808;
+  border-top: 0;
+  border-right: 0;
+  transform: rotate(-45deg);
+}
+
+.booking-scheduler-card {
+  margin-top: 28px;
+  border-radius: 22px;
+  border: 1px solid rgba(255, 195, 55, 0.19);
+  background:
+    radial-gradient(circle at 18% 0%, rgba(255, 194, 55, 0.08), transparent 38%),
+    linear-gradient(160deg, rgba(16, 16, 16, 0.98), rgba(10, 10, 10, 0.95));
+  box-shadow:
+    0 24px 48px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.03) inset;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 330px minmax(0, 1fr);
+}
+
+.booking-scheduler-info {
+  border-right: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.02);
+  padding: 28px 24px;
+}
+
+.booking-brand-mark {
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+  font-weight: 800;
+  color: #18140a;
+  background: radial-gradient(circle at 34% 30%, #ffe385 0%, #ffc124 46%, #d58b00 100%);
+  border: 1px solid rgba(255, 223, 136, 0.8);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.35);
+}
+
+.booking-scheduler-info h2 {
+  margin: 18px 0 14px;
+  font-size: 34px;
+  line-height: 1.1;
+  color: #f6f8fc;
+  font-weight: 800;
+}
+
+.booking-scheduler-info__meta {
+  margin: 0 0 6px;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: rgba(193, 203, 218, 0.88);
+}
+
+.booking-scheduler-info__copy {
+  margin: 14px 0 0;
+  font-size: 16px;
+  line-height: 1.5;
+  color: rgba(214, 221, 230, 0.9);
+}
+
+.booking-scheduler-info__prefill {
+  margin: 18px 0 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 198, 73, 0.3);
+  background: rgba(255, 194, 44, 0.07);
+  color: rgba(255, 230, 164, 0.95);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.booking-scheduler-embed {
+  position: relative;
+  min-height: 620px;
+  height: clamp(620px, 82vh, 760px);
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255, 199, 75, 0.08), rgba(255, 199, 75, 0) 56%),
+    #0b0b0b;
+  overflow: hidden;
+  pointer-events: auto;
+  touch-action: auto;
+}
+
+.booking-scheduler-embed::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0));
+  pointer-events: none;
+  z-index: 0;
+}
+
+.booking-cal-frame {
+  width: 100%;
+  height: 100%;
+  pointer-events: auto;
+  touch-action: auto;
+}
+
+.booking-scheduler-embed iframe {
+  width: 100%;
+  height: 100% !important;
+  min-height: 100%;
+  border: 0;
+  display: block;
+  background: #0b0b0b;
+  pointer-events: auto;
+  touch-action: auto;
+}
+
+.booking-missing-cal-link {
+  min-height: 100%;
+  padding: 28px;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  text-align: center;
+  gap: 12px;
+  color: #171717;
+}
+
+.booking-missing-cal-link h3 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.booking-missing-cal-link p {
+  margin: 0;
+  max-width: 560px;
+  font-size: 17px;
+  line-height: 1.45;
+}
+
+.booking-missing-cal-link__code {
+  width: fit-content;
+  max-width: 100%;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(22, 22, 22, 0.2);
+  background: rgba(0, 0, 0, 0.05);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.booking-back-home {
+  margin-top: 4px;
+  border-radius: 999px;
+  border: 1px solid rgba(58, 58, 58, 0.35);
+  background: #151515;
+  color: #f6f7fa;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 11px 18px;
+}
+
+.booking-back-home:hover {
+  border-color: rgba(33, 33, 33, 0.6);
+  background: #0f0f0f;
+}
+
+@media (max-width: 1080px) {
+  .booking-scheduler-card {
+    grid-template-columns: 290px minmax(0, 1fr);
+  }
+
+  .booking-scheduler-info h2 {
+    font-size: 30px;
+  }
+}
+
+@media (max-width: 900px) {
+  .booking-scheduler-card {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .booking-scheduler-info {
+    border-right: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  }
+}
+
+@media (max-width: 560px) {
+  .booking-page {
+    padding: 14px 12px 20px;
+  }
+
+  .booking-progress-track {
+    height: 22px;
+  }
+
+  .booking-page__header h1 {
+    font-size: clamp(1.8rem, 8vw, 2.3rem);
+  }
+
+  .booking-page__header p {
+    font-size: 1rem;
+    margin-top: 14px;
+  }
+
+  .booking-benefits {
+    margin-top: 24px;
+    gap: 10px;
+  }
+
+  .booking-benefits li {
+    font-size: 0.96rem;
+  }
+
+  .booking-scheduler-card {
+    margin-top: 20px;
+    border-radius: 16px;
+  }
+
+  .booking-scheduler-info {
+    padding: 18px 14px;
+  }
+
+  .booking-scheduler-info h2 {
+    font-size: 25px;
+    margin: 14px 0 10px;
+  }
+
+  .booking-scheduler-embed {
+    height: min(82vh, 760px);
+    min-height: 620px;
+  }
+
+  .booking-scheduler-embed iframe,
+  .booking-missing-cal-link {
+    min-height: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .booking-page__header {
+    animation: booking-fade-up 460ms cubic-bezier(0.2, 0.9, 0.2, 1) both;
+  }
+
+  .booking-benefits li {
+    opacity: 0;
+    animation: booking-fade-up 520ms cubic-bezier(0.2, 0.9, 0.2, 1) both;
+  }
+
+  .booking-benefits li:nth-child(1) {
+    animation-delay: 70ms;
+  }
+
+  .booking-benefits li:nth-child(2) {
+    animation-delay: 120ms;
+  }
+
+  .booking-benefits li:nth-child(3) {
+    animation-delay: 170ms;
+  }
+
+  .booking-scheduler-card {
+    animation: booking-card-fade 520ms ease 90ms both;
+  }
+
+  .booking-progress-fill {
+    animation: booking-progress-in 800ms cubic-bezier(0.2, 0.9, 0.2, 1) both;
+    transform-origin: left center;
+  }
+}
+
+@keyframes booking-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes booking-card-fade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes booking-progress-in {
+  from {
+    transform: scaleX(0.2);
+    filter: saturate(0.7);
+  }
+
+  to {
+    transform: scaleX(1);
+    filter: saturate(1);
+  }
+}

@@ -1582,10 +1582,69 @@ body {
   max-width: 100% !important;
   display: block !important;
   padding: 8px 18px !important;
+  font-size: clamp(12px, 1.8vw, 14px) !important;
+  font-weight: 800 !important;
+  letter-spacing: 1.6px !important;
   line-height: 1.35 !important;
 }
 
 #section-c6yJgt9wX #heading-6K1GviyIZSU {
   margin-top: 2px !important;
   margin-bottom: 0 !important;
+}
+
+/* First hero CTA: taller, bolder, and more attention-grabbing. */
+#section-c6yJgt9wX #button-qn3vZzPp0s_btn {
+  min-height: 66px !important;
+  padding: 18px 48px !important;
+  font-size: clamp(17px, 2.2vw, 20px) !important;
+  font-weight: 900 !important;
+  letter-spacing: 2px !important;
+  border-width: 1.5px !important;
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.68),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.34),
+    0 12px 24px rgba(0, 0, 0, 0.5),
+    0 0 26px rgba(255, 215, 0, 0.44) !important;
+  animation: heroFirstCtaPulse 2.4s ease-in-out infinite;
+}
+
+#section-c6yJgt9wX #button-qn3vZzPp0s_btn .main-heading-button {
+  font-weight: 900 !important;
+}
+
+#section-c6yJgt9wX #button-qn3vZzPp0s_btn:hover {
+  transform: translateY(-2px) scale(1.03) !important;
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.76),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.34),
+    0 14px 28px rgba(0, 0, 0, 0.56),
+    0 0 34px rgba(255, 225, 50, 0.56) !important;
+}
+
+@keyframes heroFirstCtaPulse {
+  0%,
+  100% {
+    box-shadow:
+      inset 0 1px 1px rgba(255, 255, 255, 0.68),
+      inset 0 -2px 4px rgba(0, 0, 0, 0.34),
+      0 12px 24px rgba(0, 0, 0, 0.5),
+      0 0 20px rgba(255, 215, 0, 0.34);
+  }
+  50% {
+    box-shadow:
+      inset 0 1px 1px rgba(255, 255, 255, 0.72),
+      inset 0 -2px 4px rgba(0, 0, 0, 0.34),
+      0 13px 26px rgba(0, 0, 0, 0.54),
+      0 0 30px rgba(255, 225, 50, 0.52);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #section-c6yJgt9wX #button-qn3vZzPp0s_btn {
+    min-height: 60px !important;
+    padding: 15px 34px !important;
+    font-size: 17px !important;
+    letter-spacing: 1.6px !important;
+  }
 }

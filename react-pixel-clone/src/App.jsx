@@ -555,6 +555,22 @@ function App() {
       );
     }
 
+    if (field.type === "textarea") {
+      return (
+        <label className={fieldClassName} key={field.name}>
+          {labelText}
+          <textarea
+            id={fieldId}
+            name={field.name}
+            placeholder={field.placeholder || ""}
+            value={qualifierForm[field.name] ?? ""}
+            onChange={handleQualifierInput}
+            rows={field.rows || 4}
+          />
+        </label>
+      );
+    }
+
     return (
       <label className={fieldClassName} key={field.name}>
         {labelText}

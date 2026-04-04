@@ -105,6 +105,7 @@ Use these in each field object:
 - `number`
 - `select`
 - `radio`
+- `textarea`
 
 Optional properties:
 

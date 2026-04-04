@@ -511,17 +511,20 @@ textarea,
   inset: 0;
   z-index: 10020;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   padding: 22px;
   background: rgba(5, 5, 5, 0.85); /* Darker, more premium overlay */
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
+  overflow-y: auto;
 }
 
 .qualifier-modal {
   width: min(760px, 95%);
+  max-height: calc(100vh - 44px);
   position: relative;
+  margin: 18px 0 22px;
   border-radius: 20px;
   border: 1px solid rgba(255, 191, 64, 0.25) !important;
   background:
@@ -536,6 +539,7 @@ textarea,
   font-family: var(--manrope), var(--plus-jakarta-sans), sans-serif;
   animation: qualifier-pop 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   overflow: hidden;
+  overflow-y: auto;
 }
 
 /* Subtle glow behind the modal content */
@@ -874,14 +878,14 @@ textarea,
 .qualifier-actions {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   gap: 10px;
   margin-top: 20px;
   flex-wrap: wrap;
 }
 
 .qualifier-actions .qualifier-submit-btn {
-  margin: 0;
+  margin: 0 0 0 auto;
 }
 
 .qualifier-back-btn {

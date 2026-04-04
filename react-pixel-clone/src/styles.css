@@ -1550,3 +1550,42 @@ body {
   background:
     radial-gradient(ellipse at 50% 50%, rgba(255, 190, 40, 0.06) 0%, transparent 70%) !important;
 }
+
+/* Hero top-bar spacing parity (spacing only, keep gold palette). */
+#section-c6yJgt9wX > .inner {
+  padding-top: 10px !important;
+  padding-bottom: 8px !important;
+}
+
+#section-c6yJgt9wX #row-Ai-RlX1m9T,
+#section-c6yJgt9wX #row-ZFYq3M0KqZP {
+  margin: 0 auto !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+#section-c6yJgt9wX #row-Ai-RlX1m9T > .inner,
+#section-c6yJgt9wX #row-ZFYq3M0KqZP > .inner {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+#section-c6yJgt9wX #row-Ai-RlX1m9T {
+  margin-top: 4px !important;
+  margin-bottom: 4px !important;
+  width: min(640px, 94%) !important;
+}
+
+#section-c6yJgt9wX #row-Ai-RlX1m9T h2 {
+  margin: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  display: block !important;
+  padding: 8px 18px !important;
+  line-height: 1.35 !important;
+}
+
+#section-c6yJgt9wX #heading-6K1GviyIZSU {
+  margin-top: 2px !important;
+  margin-bottom: 0 !important;
+}

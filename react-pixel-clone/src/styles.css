@@ -1593,6 +1593,10 @@ body {
   margin-bottom: 0 !important;
 }
 
+#section-c6yJgt9wX #paragraph-AoyrnEb6UG p {
+  font-size: 21px !important;
+}
+
 /* First hero CTA: taller, bolder, and more attention-grabbing. */
 #section-c6yJgt9wX #button-qn3vZzPp0s_btn {
   min-height: 66px !important;
@@ -1646,5 +1650,41 @@ body {
     padding: 15px 34px !important;
     font-size: 17px !important;
     letter-spacing: 1.6px !important;
+  }
+
+  #section-c6yJgt9wX #paragraph-AoyrnEb6UG p {
+    font-size: 15px !important;
+  }
+}
+
+/* Sticky footer CTA fix: target only the final "Apply today" button. */
+#section-5oa_veNL0R #button-8IFTmg9LF__btn {
+  min-height: 42px !important;
+  padding: 9px 22px !important;
+  width: auto !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin-top: 0 !important;
+  font-size: 13px !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+  letter-spacing: 1.2px !important;
+  white-space: nowrap !important;
+  animation: none !important;
+  transform: none !important;
+}
+
+#section-5oa_veNL0R #button-8IFTmg9LF__btn:hover {
+  transform: none !important;
+  filter: brightness(1.03);
+}
+
+@media screen and (max-width: 768px) {
+  #section-5oa_veNL0R #button-8IFTmg9LF__btn {
+    min-height: 40px !important;
+    padding: 8px 18px !important;
+    font-size: 12px !important;
+    letter-spacing: 1px !important;
   }
 }

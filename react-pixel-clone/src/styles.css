@@ -1659,20 +1659,25 @@ body {
 
 /* Sticky footer CTA fix: target only the final "Apply today" button. */
 #section-5oa_veNL0R #button-8IFTmg9LF__btn {
-  min-height: 42px !important;
-  padding: 9px 22px !important;
+  min-height: 46px !important;
+  padding: 11px 24px !important;
   width: auto !important;
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
   margin-top: 0 !important;
-  font-size: 13px !important;
-  font-weight: 800 !important;
+  font-size: 14px !important;
+  font-weight: 900 !important;
   line-height: 1 !important;
   letter-spacing: 1.2px !important;
   white-space: nowrap !important;
   animation: none !important;
   transform: none !important;
+}
+
+#section-5oa_veNL0R #button-8IFTmg9LF__btn .main-heading-button {
+  font-size: inherit !important;
+  font-weight: 900 !important;
 }
 
 #section-5oa_veNL0R #button-8IFTmg9LF__btn:hover {
@@ -1682,9 +1687,9 @@ body {
 
 @media screen and (max-width: 768px) {
   #section-5oa_veNL0R #button-8IFTmg9LF__btn {
-    min-height: 40px !important;
-    padding: 8px 18px !important;
-    font-size: 12px !important;
+    min-height: 44px !important;
+    padding: 10px 20px !important;
+    font-size: 13px !important;
     letter-spacing: 1px !important;
   }
 }

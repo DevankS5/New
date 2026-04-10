@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import replicaMarkup from "./replica/replica.html?raw";
 import {
   QUALIFIER_FLOW_CONFIG,
@@ -16,7 +15,6 @@ const TESTIMONIAL_IMAGE_PATHS = [
   "/assets/images/testimonial_3.jpg",
   "/assets/images/testimonial_4.jpg",
 ];
-const BOOKING_PREFILL_STORAGE_KEY = "qualifierBookingPrefill";
 
 function getTimeLeft() {
   const secondMs = 1000;
@@ -49,7 +47,6 @@ function getTimeLeft() {
 }
 
 function App() {
-  const navigate = useNavigate();
   const [isQualifierOpen, setIsQualifierOpen] = useState(false);
   const [qualifierScreenIndex, setQualifierScreenIndex] = useState(0);
   const [qualifierError, setQualifierError] = useState("");
@@ -471,22 +468,7 @@ function App() {
   };
 
   const continueToBookingPage = () => {
-    const bookingPrefill = {
-      fullName: String(qualifierForm.fullName ?? "").trim(),
-      email: String(qualifierForm.email ?? "").trim(),
-    };
-
-    try {
-      window.sessionStorage.setItem(
-        BOOKING_PREFILL_STORAGE_KEY,
-        JSON.stringify(bookingPrefill),
-      );
-    } catch {
-      // Booking should still work even if storage is unavailable.
-    }
-
-    setIsQualifierOpen(false);
-    navigate("/book-call");
+    // Booking redirect is intentionally disabled for now.
   };
 
   const startQualifierFlow = () => {

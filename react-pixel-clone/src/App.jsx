@@ -281,6 +281,9 @@ function App() {
         "display",
         "align-items",
         "justify-content",
+        "box-sizing",
+        "margin-left",
+        "margin-right",
       ].forEach((property) => {
         button.style.removeProperty(property);
       });
@@ -338,8 +341,8 @@ function App() {
         }
 
         button.style.setProperty("width", width, "important");
-        button.style.setProperty("min-width", width, "important");
-        button.style.setProperty("max-width", width, "important");
+        button.style.setProperty("min-width", "0", "important");
+        button.style.setProperty("max-width", "100%", "important");
         button.style.setProperty("height", height, "important");
         button.style.setProperty("min-height", height, "important");
         button.style.setProperty("max-height", height, "important");
@@ -349,6 +352,9 @@ function App() {
         button.style.setProperty("display", "inline-flex", "important");
         button.style.setProperty("align-items", "center", "important");
         button.style.setProperty("justify-content", "center", "important");
+        button.style.setProperty("box-sizing", "border-box", "important");
+        button.style.setProperty("margin-left", "auto", "important");
+        button.style.setProperty("margin-right", "auto", "important");
       });
     };
 

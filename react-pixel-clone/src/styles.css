@@ -28,6 +28,23 @@ body {
   border-bottom: 1px solid rgba(255, 185, 63, 0.1) !important;
 }
 
+/* Pipeline steps — icon cards */
+#image-xURhufKa0aH .image-container,
+#image-AyLUW-1VpwI .image-container,
+#image-l2m1dmbGt3w .image-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 0 8px;
+  background: transparent !important;
+}
+
+#image-xURhufKa0aH .image-container svg,
+#image-AyLUW-1VpwI .image-container svg,
+#image-l2m1dmbGt3w .image-container svg {
+  filter: drop-shadow(0 0 18px rgba(255, 193, 7, 0.35));
+}
+
 #section-c6yJgt9wX::before {
   content: "";
   position: absolute;

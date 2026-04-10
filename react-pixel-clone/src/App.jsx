@@ -13,6 +13,8 @@ const HERO_WISTIA_EMBED_URL =
 const APPLY_CTA_PATTERN = /apply to work with us|apply today/i;
 const TESTIMONIAL_IMAGE_PATHS = [
   "/assets/images/testimonial_1.jpg",
+  "/assets/images/testimonial_2.jpg",
+  "/assets/images/testimonial_3.jpg",
   "/assets/images/testimonial_4.jpg",
 ];
 const BOOKING_PREFILL_STORAGE_KEY = "qualifierBookingPrefill";
@@ -59,7 +61,8 @@ function App() {
     const doc = new DOMParser().parseFromString(replicaMarkup, "text/html");
     const founderKeywords =
       /MEET THE FOUNDER(?:\s*&\s*CEO)?|Hey,\s*I'm\s*[^!]{1,60}!|Built By Someone Who's Actually Done It/i;
-    const testimonialHeadingPattern = /What Our Clients Are Saying/i;
+    const testimonialHeadingPattern =
+      /What Our Clients Are Saying|Our Client(?:'|’)?s Result|Client Results?/i;
 
     const founderSections = Array.from(
       doc.querySelectorAll('[id^="section-"], .c-section'),
@@ -76,10 +79,13 @@ function App() {
       });
     }
 
-    const testimonialHeading = Array.from(doc.querySelectorAll("h1, h2")).find(
+    const testimonialHeading = Array.from(doc.querySelectorAll("h1, h2, h3")).find(
       (heading) => testimonialHeadingPattern.test(heading.textContent || ""),
     );
-    const testimonialSection = testimonialHeading?.closest('[id^="section-"]');
+    const testimonialSection =
+      doc.querySelector("#section-NRzzCVGLQv") ||
+      testimonialHeading?.closest('[id^="section-"]') ||
+      null;
 
     if (testimonialSection) {
       const allTestimonialRows = Array.from(
@@ -89,83 +95,86 @@ function App() {
         row.querySelector(".c-video"),
       )?.cloneNode(true);
 
-      allTestimonialRows.forEach((row) => {
-        if (row.querySelector(".c-video")) {
-          row.remove();
-        }
-      });
-
-      const testimonialRows = Array.from(
-        testimonialSection.querySelectorAll('[id^="row-"]'),
-      ).filter((row) => {
-        const hasQuote = Array.from(row.querySelectorAll(".c-paragraph p")).some((p) =>
-          /["“]/.test(p.textContent || ""),
-        );
-        const cardCount = row.querySelectorAll('.c-column[id^="col-"]').length;
-        return hasQuote && cardCount >= 2;
-      });
-
-      const imageRows = testimonialRows.filter((row) =>
-        row.querySelector("picture.hl-image-picture"),
-      );
-      const textRows = testimonialRows.filter(
-        (row) => !row.querySelector("picture.hl-image-picture"),
-      );
-
-      textRows.slice(1).forEach((row) => row.remove());
-      imageRows.slice(1).forEach((row) => row.remove());
-
       if (videoTemplateRow) {
-        videoTemplateRow.id = "row-custom-image-testimonials";
+        const clearTemplateRow = (row) => {
+          row
+            .querySelectorAll(
+              ".c-heading h1, .c-heading h2, .c-heading h3, .c-sub-heading h1, .c-sub-heading h2, .c-sub-heading h3, .c-sub-heading p, .c-paragraph p",
+            )
+            .forEach((node) => {
+              node.textContent = "";
+            });
 
-        videoTemplateRow
-          .querySelectorAll(
-            ".c-heading h1, .c-heading h2, .c-heading h3, .c-sub-heading h1, .c-sub-heading h2, .c-sub-heading h3, .c-sub-heading p, .c-paragraph p",
-          )
-          .forEach((node) => {
-            node.textContent = "";
+          row
+            .querySelectorAll(".c-heading, .c-sub-heading, .c-paragraph")
+            .forEach((block) => {
+              const text = (block.textContent || "").replace(/\u00a0/g, " ").trim();
+              if (!text) {
+                block.remove();
+              }
+            });
+
+          row.querySelectorAll(".c-image").forEach((imageBlock) => {
+            imageBlock.remove();
           });
+        };
 
-        // Remove now-empty wrappers from the cloned row to prevent large blank gaps.
-        videoTemplateRow
-          .querySelectorAll(".c-heading, .c-sub-heading, .c-paragraph")
-          .forEach((block) => {
-            const text = (block.textContent || "").replace(/\u00a0/g, " ").trim();
-            if (!text) {
-              block.remove();
+        const buildScreenshotRow = (rowId, images, startIndex) => {
+          const row = videoTemplateRow.cloneNode(true);
+          row.id = rowId;
+          clearTemplateRow(row);
+
+          const videoCards = Array.from(row.querySelectorAll(".c-video"));
+          videoCards.forEach((videoCard, cardIndex) => {
+            if (cardIndex >= images.length) {
+              videoCard.remove();
+              return;
             }
+
+            const testimonialIndex = startIndex + cardIndex;
+            videoCard.innerHTML = `
+              <div class="testimonial-proof-embed">
+                <img
+                  src="${images[cardIndex]}"
+                  alt="Client testimonial chat screenshot ${testimonialIndex + 1}"
+                  loading="lazy"
+                />
+              </div>
+            `;
           });
 
-        // The cloned template includes star-rating image blocks we don't want
-        // in screenshot testimonials.
-        videoTemplateRow.querySelectorAll(".c-image").forEach((imageBlock) => {
-          imageBlock.remove();
-        });
+          return row;
+        };
 
-        const videoCards = Array.from(videoTemplateRow.querySelectorAll(".c-video"));
-        videoCards.slice(0, 2).forEach((videoCard, index) => {
-          videoCard.innerHTML = `
-            <div class="testimonial-proof-embed">
-              <img
-                src="${TESTIMONIAL_IMAGE_PATHS[index]}"
-                alt="Client testimonial chat screenshot ${index + 1}"
-                loading="lazy"
-              />
-            </div>
-          `;
-        });
-        videoCards.slice(2).forEach((videoCard) => videoCard.remove());
+        const isLegacyTestimonialRow = (row) => {
+          const hasQuote = Array.from(row.querySelectorAll(".c-paragraph p")).some((p) =>
+            /["“]/.test(p.textContent || ""),
+          );
+          const hasMedia = Boolean(
+            row.querySelector(".c-video, picture.hl-image-picture, .testimonial-proof-embed"),
+          );
 
-        const keptRows = Array.from(testimonialSection.querySelectorAll('[id^="row-"]')).filter(
-          (row) => row === textRows[0] || row === imageRows[0],
+          return hasQuote || hasMedia;
+        };
+
+        const rowsToRemove = Array.from(
+          testimonialSection.querySelectorAll('[id^="row-"]'),
+        ).filter(isLegacyTestimonialRow);
+
+        rowsToRemove.forEach((row) => row.remove());
+
+        const firstRow = buildScreenshotRow(
+          "row-custom-image-testimonials",
+          TESTIMONIAL_IMAGE_PATHS.slice(0, 2),
+          0,
         );
-        const insertionAnchor = keptRows[keptRows.length - 1];
+        const secondRow = buildScreenshotRow(
+          "row-custom-image-testimonials-2",
+          TESTIMONIAL_IMAGE_PATHS.slice(2, 4),
+          2,
+        );
 
-        if (insertionAnchor) {
-          insertionAnchor.after(videoTemplateRow);
-        } else {
-          testimonialSection.append(videoTemplateRow);
-        }
+        testimonialSection.append(firstRow, secondRow);
       }
     }
 

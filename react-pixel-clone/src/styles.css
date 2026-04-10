@@ -1481,7 +1481,8 @@ body {
   #section-NRzzCVGLQv #row-x2rJ8y7MSE,
   #section-NRzzCVGLQv #row-HBkG1YEu9w,
   #section-NRzzCVGLQv #row-lGRC1s6zqt,
-  #section-NRzzCVGLQv #row-custom-image-testimonials {
+  #section-NRzzCVGLQv #row-custom-image-testimonials,
+  #section-NRzzCVGLQv #row-custom-image-testimonials-2 {
     margin-top: 0 !important;
     margin-bottom: 0 !important;
     padding-top: 4px !important;
@@ -1496,17 +1497,20 @@ body {
     padding-bottom: 12px !important;
   }
 
-  #section-NRzzCVGLQv #row-custom-image-testimonials [id^="col-"] > .inner {
+  #section-NRzzCVGLQv #row-custom-image-testimonials [id^="col-"] > .inner,
+  #section-NRzzCVGLQv #row-custom-image-testimonials-2 [id^="col-"] > .inner {
     padding-top: 8px !important;
     padding-bottom: 8px !important;
   }
 
-  #section-NRzzCVGLQv #row-custom-image-testimonials [id^="video-"] {
+  #section-NRzzCVGLQv #row-custom-image-testimonials [id^="video-"],
+  #section-NRzzCVGLQv #row-custom-image-testimonials-2 [id^="video-"] {
     margin-top: 0 !important;
     margin-bottom: 0 !important;
   }
 
-  #section-NRzzCVGLQv #row-custom-image-testimonials [id^="video-"] > div {
+  #section-NRzzCVGLQv #row-custom-image-testimonials [id^="video-"] > div,
+  #section-NRzzCVGLQv #row-custom-image-testimonials-2 [id^="video-"] > div {
     padding-top: 0 !important;
     padding-bottom: 0 !important;
   }

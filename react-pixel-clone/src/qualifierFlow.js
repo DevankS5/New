@@ -7,6 +7,40 @@ export const QUALIFIER_FLOW_CONFIG = {
   },
   pages: [
     {
+      id: "quick-qualification",
+      title: "Quick Qualification Check",
+      copy: "Answer these two questions to continue.",
+      submitLabel: "Continue",
+      fields: [
+        {
+          name: "bestDescribes",
+          label: "Q1. What best describes you?",
+          type: "radio",
+          required: true,
+          fullWidth: true,
+          options: [
+            { value: "Agency Owner", label: "Agency Owner" },
+            { value: "Coach", label: "Coach" },
+            { value: "Consultant", label: "Consultant" },
+          ],
+        },
+        {
+          name: "monthlyRevenue",
+          label: "Q2. Your Current Monthly Revenue",
+          type: "radio",
+          required: true,
+          fullWidth: true,
+          helperText: "If you earn less than 2 lakh, do not fill this form.",
+          options: [
+            { value: "2-5 lakh", label: "2-5 lakh" },
+            { value: "5-8 lakh", label: "5-8 lakh" },
+            { value: "8-12 lakh", label: "8-12 lakh" },
+            { value: "12+ lakh", label: "12+ lakh" },
+          ],
+        },
+      ],
+    },
+    {
       id: "contact-details",
       title: "Contact Details",
       copy: "Please fill in your details to continue.",

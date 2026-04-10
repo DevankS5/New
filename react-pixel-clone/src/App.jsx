@@ -174,7 +174,25 @@ function App() {
           2,
         );
 
-        testimonialSection.append(firstRow, secondRow);
+        const testimonialCtaRow = Array.from(
+          testimonialSection.querySelectorAll('[id^="row-"]'),
+        ).find((row) => {
+          const ctaButton = row.querySelector('button[id$="_btn"]');
+          if (!(ctaButton instanceof HTMLButtonElement)) return false;
+
+          const label = `${ctaButton.getAttribute("aria-label") || ""} ${
+            ctaButton.textContent || ""
+          }`;
+
+          return APPLY_CTA_PATTERN.test(label);
+        });
+
+        if (testimonialCtaRow?.parentElement) {
+          testimonialCtaRow.parentElement.insertBefore(firstRow, testimonialCtaRow);
+          testimonialCtaRow.parentElement.insertBefore(secondRow, testimonialCtaRow);
+        } else {
+          testimonialSection.append(firstRow, secondRow);
+        }
       }
     }
 

@@ -5,7 +5,6 @@ import {
   QUALIFIER_FLOW_CONFIG,
   createInitialQualifierFormState,
   getQualifierProgress,
-  getQualifierSuccessCopy,
 } from "./qualifierFlow";
 
 const HERO_WISTIA_EMBED_URL =
@@ -413,9 +412,7 @@ function App() {
 
   const questionPages = QUALIFIER_FLOW_CONFIG.pages;
   const firstQuestionScreenIndex = 1;
-  const successScreenIndex = questionPages.length + 1;
   const isIntroScreen = qualifierScreenIndex === 0;
-  const isSuccessScreen = qualifierScreenIndex === successScreenIndex;
   const activeQuestionPageIndex = qualifierScreenIndex - 1;
   const activeQuestionPage = questionPages[activeQuestionPageIndex] ?? null;
   const qualifierProgress = getQualifierProgress(qualifierScreenIndex, QUALIFIER_FLOW_CONFIG);
@@ -462,6 +459,10 @@ function App() {
       return !Array.isArray(value) || value.length === 0;
     }
 
+    if (field.type === "checkbox") {
+      return value !== true;
+    }
+
     return String(value ?? "").trim() === "";
   };
 
@@ -491,7 +492,7 @@ function App() {
   const startQualifierFlow = () => {
     setQualifierError("");
     if (questionPages.length === 0) {
-      setQualifierScreenIndex(successScreenIndex);
+      continueToBookingPage();
       return;
     }
 
@@ -541,21 +542,25 @@ function App() {
     event.preventDefault();
     if (!activeQuestionPage || isSubmittingFirstScreen) return;
 
-    const hasMissingRequiredField = activeQuestionPage.fields.some((field) => {
+    const missingRequiredField = activeQuestionPage.fields.find((field) => {
       const value = qualifierForm[field.name];
       return isQualifierFieldMissing(field, value);
     });
 
-    if (hasMissingRequiredField) {
-      setQualifierError("Please complete all required fields to continue.");
+    if (missingRequiredField) {
+      setQualifierError(
+        missingRequiredField.validationMessage ||
+          "Please complete all required fields to continue.",
+      );
       return;
     }
 
     const isFirstQuestionPage = activeQuestionPageIndex === 0;
+    const shouldSubmitFirstScreen = activeQuestionPage.id === "personal-information";
     const isLastQuestionPage = activeQuestionPageIndex === questionPages.length - 1;
     setQualifierError("");
 
-    if (isFirstQuestionPage) {
+    if (isFirstQuestionPage && shouldSubmitFirstScreen) {
       setIsSubmittingFirstScreen(true);
 
       try {
@@ -633,6 +638,10 @@ function App() {
               );
             })}
           </div>
+
+          {field.helperText ? (
+            <p className="qualifier-helper-text">{field.helperText}</p>
+          ) : null}
         </fieldset>
       );
     }
@@ -676,6 +685,21 @@ function App() {
             })}
           </div>
         </fieldset>
+      );
+    }
+
+    if (field.type === "checkbox") {
+      return (
+        <label className={`${fieldClassName} qualifier-single-checkbox`} key={field.name}>
+          <input
+            id={fieldId}
+            type="checkbox"
+            name={field.name}
+            checked={qualifierForm[field.name] === true}
+            onChange={handleQualifierInput}
+          />
+          <span>{field.label}</span>
+        </label>
       );
     }
 
@@ -837,22 +861,6 @@ function App() {
               </div>
             ) : null}
 
-            {isSuccessScreen ? (
-              <div className="qualifier-step qualifier-step-success">
-                <h2 id="qualifier-title">{QUALIFIER_FLOW_CONFIG.success.title}</h2>
-                <p className="qualifier-copy">
-                  {getQualifierSuccessCopy(qualifierForm, QUALIFIER_FLOW_CONFIG)}
-                </p>
-
-                <button
-                  type="button"
-                  className="qualifier-submit-btn"
-                  onClick={continueToBookingPage}
-                >
-                  {QUALIFIER_FLOW_CONFIG.success.ctaLabel}
-                </button>
-              </div>
-            ) : null}
           </section>
         </div>
       ) : null}

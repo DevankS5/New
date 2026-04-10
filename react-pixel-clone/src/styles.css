@@ -701,6 +701,14 @@ textarea,
   color: rgba(186, 193, 206, 0.96) !important;
 }
 
+.qualifier-helper-text {
+  margin: 7px 2px 0;
+  font-size: 12px;
+  line-height: 1.35;
+  color: rgba(255, 198, 110, 0.9) !important;
+  font-style: italic;
+}
+
 .qualifier-message-panel {
   margin: 0 0 18px;
   border-radius: 16px;
@@ -996,6 +1004,57 @@ textarea,
   resize: vertical;
 }
 
+.qualifier-single-checkbox {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 2px;
+}
+
+.qualifier-single-checkbox input {
+  appearance: none;
+  width: 26px;
+  height: 26px;
+  margin: 0;
+  border: 1.6px solid rgba(164, 176, 196, 0.72);
+  border-radius: 4px;
+  background: #10151d;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.qualifier-single-checkbox input::before {
+  content: "";
+  width: 12px;
+  height: 7px;
+  border: 2px solid #f8bf3a;
+  border-top: 0;
+  border-right: 0;
+  border-radius: 0;
+  transform: translateY(-1px) rotate(-45deg) scale(0);
+  transform-origin: center;
+  transition: transform 120ms ease;
+}
+
+.qualifier-single-checkbox input:checked {
+  border-color: #f8bf3a;
+}
+
+.qualifier-single-checkbox input:checked::before {
+  transform: translateY(-1px) rotate(-45deg) scale(1);
+}
+
+.qualifier-single-checkbox span {
+  margin-top: -1px;
+  font-size: 15px;
+  line-height: 1.38;
+  font-weight: 500;
+  text-transform: none;
+  color: rgba(233, 238, 247, 0.95) !important;
+}
+
 .qualifier-field input:not([type="radio"]):not([type="checkbox"])::placeholder,
 .qualifier-field textarea::placeholder {
   color: rgba(144, 153, 170, 0.8);
@@ -1153,6 +1212,15 @@ textarea,
 
   .qualifier-field textarea {
     font-size: 16px;
+  }
+
+  .qualifier-single-checkbox input {
+    width: 22px;
+    height: 22px;
+  }
+
+  .qualifier-single-checkbox span {
+    font-size: 14px;
   }
 
   .qualifier-actions {

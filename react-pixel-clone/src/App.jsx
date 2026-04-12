@@ -7,7 +7,7 @@ import {
 } from "./qualifierFlow";
 
 const HERO_WISTIA_EMBED_URL =
-  "https://fast.wistia.net/embed/iframe/68l35pjer0?seo=true&videoFoam=true";
+  "https://fast.wistia.net/embed/iframe/ihb2ztzkiw?seo=true&videoFoam=true";
 const APPLY_CTA_PATTERN = /apply to work with us|apply today/i;
 const TESTIMONIAL_IMAGE_PATHS = [
   "/assets/images/testimonial_1.jpg",

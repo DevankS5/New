@@ -8,6 +8,8 @@ import {
 
 const HERO_WISTIA_EMBED_URL =
   "https://fast.wistia.net/embed/iframe/ihb2ztzkiw?seo=true&videoFoam=true";
+const CAL_BOOKING_URL =
+  "https://cal.com/orygin.ai/consultation?overlayCalendar=true";
 const APPLY_CTA_PATTERN = /apply to work with us|apply today/i;
 const TESTIMONIAL_IMAGE_PATHS = [
   "/assets/images/testimonial_1.jpg",
@@ -468,7 +470,12 @@ function App() {
   };
 
   const continueToBookingPage = () => {
-    // Booking redirect is intentionally disabled for now.
+    closeQualifier();
+    const bookingTab = window.open(CAL_BOOKING_URL, "_blank", "noopener,noreferrer");
+
+    if (bookingTab) {
+      bookingTab.opener = null;
+    }
   };
 
   const startQualifierFlow = () => {

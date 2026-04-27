@@ -494,21 +494,61 @@ function App() {
     setQualifierScreenIndex((prev) => Math.max(0, prev - 1));
   };
 
+  const getFbTracking = () => {
+    const getCookie = (name) => {
+      const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
+      return match ? match[2] : null;
+    };
+    const fbp = getCookie("_fbp") || null;
+    const fbclid = new URLSearchParams(window.location.search).get("fbclid");
+    const fbc = fbclid ? `fb.1.${Date.now()}.${fbclid}` : null;
+    return { fbp, fbc };
+  };
+
+  const getQueryParams = () => {
+    const params = {};
+    new URLSearchParams(window.location.search).forEach((value, key) => {
+      if (Object.prototype.hasOwnProperty.call(params, key)) {
+        const existing = params[key];
+        params[key] = Array.isArray(existing) ? [...existing, value] : [existing, value];
+      } else {
+        params[key] = value;
+      }
+    });
+    return params;
+  };
+
   const submitFirstScreenDetails = async () => {
-    const payload = {
-      fullName: String(qualifierForm.fullName ?? "").trim(),
-      emailAddress: String(qualifierForm.email ?? "").trim(),
-      whatsAppNumber: String(qualifierForm.phone ?? "").trim(),
-      designationInCompany: String(qualifierForm.designation ?? "").trim(),
-      comfortableTimeForCommunication: String(qualifierForm.communicationTime ?? "").trim(),
+    const fullName = String(qualifierForm.fullName ?? "").trim();
+    const email = String(qualifierForm.email ?? "").trim();
+    const isdCode = String(qualifierForm.isdCode ?? "+91").trim();
+    const phone = String(qualifierForm.phone ?? "").trim();
+    const userContact = `${isdCode}${phone}`;
+
+    const { fbp, fbc } = getFbTracking();
+
+    const additionalInfo = {
+      bestDescribes: qualifierForm.bestDescribes ?? "",
+      monthlyRevenue: qualifierForm.monthlyRevenue ?? "",
+      termsAccepted: qualifierForm.termsAccepted ?? false,
     };
 
-    const response = await fetch("/api/qualifier/first-screen", {
+    const response = await fetch("https://ivy.orygin.ai/leads/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(payload),
+      body: JSON.stringify({
+        event_id: crypto.randomUUID(),
+        user_name: fullName,
+        user_contact: userContact,
+        user_email: email,
+        lead_source: "lp",
+        fbp,
+        fbc,
+        query_params: getQueryParams(),
+        additional_info: additionalInfo,
+      }),
     });
 
     if (response.ok) return;
@@ -545,7 +585,7 @@ function App() {
     }
 
     const isFirstQuestionPage = activeQuestionPageIndex === 0;
-    const shouldSubmitFirstScreen = activeQuestionPage.id === "personal-information";
+    const shouldSubmitFirstScreen = activeQuestionPage.id === "contact-details";
     const isLastQuestionPage = activeQuestionPageIndex === questionPages.length - 1;
     setQualifierError("");
 
@@ -556,7 +596,7 @@ function App() {
         await submitFirstScreenDetails();
       } catch (error) {
         // Keep the flow non-blocking in development while backend/env is being configured.
-        console.warn("First-screen Mongo save skipped:", error);
+        console.warn("Lead submission skipped:", error);
       } finally {
         setIsSubmittingFirstScreen(false);
       }

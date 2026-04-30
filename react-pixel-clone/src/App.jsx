@@ -523,7 +523,7 @@ function App() {
     const email = String(qualifierForm.email ?? "").trim();
     const isdCode = String(qualifierForm.isdCode ?? "+91").trim();
     const phone = String(qualifierForm.phone ?? "").trim();
-    const userContact = `${isdCode}${phone}`;
+    const userContact = `${isdCode}${phone}`.replace(/\+/g, "").replace(/\s+/g, "");
 
     const { fbp, fbc } = getFbTracking();
 

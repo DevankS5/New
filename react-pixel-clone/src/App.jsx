@@ -543,7 +543,7 @@ function App() {
         user_name: fullName,
         user_contact: userContact,
         user_email: email,
-        lead_source: "lp",
+        lead_source: "agp",
         fbp,
         fbc,
         query_params: getQueryParams(),
@@ -589,7 +589,7 @@ function App() {
     const isLastQuestionPage = activeQuestionPageIndex === questionPages.length - 1;
     setQualifierError("");
 
-    if (isFirstQuestionPage && shouldSubmitFirstScreen) {
+    if (shouldSubmitFirstScreen) {
       setIsSubmittingFirstScreen(true);
 
       try {

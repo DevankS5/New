@@ -528,9 +528,11 @@ function App() {
     const { fbp, fbc } = getFbTracking();
 
     const additionalInfo = {
-      bestDescribes: qualifierForm.bestDescribes ?? "",
-      monthlyRevenue: qualifierForm.monthlyRevenue ?? "",
-      termsAccepted: qualifierForm.termsAccepted ?? false,
+      agp_responses: {
+        bestDescribes: qualifierForm.bestDescribes ?? "",
+        monthlyRevenue: qualifierForm.monthlyRevenue ?? "",
+        termsAccepted: qualifierForm.termsAccepted ?? false,
+      },
     };
 
     const response = await fetch("https://ivy.orygin.ai/leads/", {

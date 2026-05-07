@@ -7,7 +7,7 @@ import {
 } from "./qualifierFlow";
 
 const HERO_WISTIA_EMBED_URL =
-  "https://fast.wistia.net/embed/iframe/ihb2ztzkiw?seo=true&videoFoam=true";
+  "https://fast.wistia.net/embed/iframe/5jkkoayysh?seo=true&videoFoam=true";
 const CAL_BOOKING_URL =
   "https://cal.com/orygin.ai/consultation?overlayCalendar=true";
 const APPLY_CTA_PATTERN = /apply to work with us|apply today/i;
